@@ -29,7 +29,7 @@ class MyHomePage extends StatefulWidget {
   final String title;
 
   @override
-  _MyHomePageState createState() => _MyHomePageState();
+  State<MyHomePage> createState() => _MyHomePageState();
 }
 
 class _MyHomePageState extends State<MyHomePage> {
@@ -44,6 +44,7 @@ class _MyHomePageState extends State<MyHomePage> {
       }
     });
     Future.microtask(
+      // ignore: use_build_context_synchronously
       () => ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(testTrees[stateCount].key),

@@ -28,7 +28,7 @@ class MyHomePage extends StatefulWidget {
   final String title;
 
   @override
-  _MyHomePageState createState() => _MyHomePageState();
+  State<MyHomePage> createState() => _MyHomePageState();
 }
 
 class _MyHomePageState extends State<MyHomePage> {
@@ -91,7 +91,9 @@ extension on ExplorableNode {
     if (this is FileNode) {
       final file = data as File;
       if (file.mimeType.startsWith("image")) return const Icon(Icons.image);
-      if (file.mimeType.startsWith("video")) return const Icon(Icons.video_file);
+      if (file.mimeType.startsWith("video")) {
+        return const Icon(Icons.video_file);
+      }
     }
 
     return const Icon(Icons.insert_drive_file);

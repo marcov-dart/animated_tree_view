@@ -31,7 +31,7 @@ class MyHomePage extends StatefulWidget {
   final String title;
 
   @override
-  _MyHomePageState createState() => _MyHomePageState();
+  State<MyHomePage> createState() => _MyHomePageState();
 }
 
 class _MyHomePageState extends State<MyHomePage> {
@@ -93,7 +93,8 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
               subtitle: Text(
                 'Level ${node.level}',
-                style: TextStyle(color: color.byLuminance().withOpacity(0.5)),
+                style: TextStyle(
+                    color: color.byLuminance().withValues(alpha: 0.5)),
               ),
               trailing: !node.isRoot ? buildRemoveItemButton(node) : null,
             ),
@@ -156,7 +157,8 @@ class _MyHomePageState extends State<MyHomePage> {
         child:
             const Text("Insert Above", style: TextStyle(color: Colors.green)),
         onPressed: () {
-          item.parent?.insertBefore(item, IndexedTreeNode(key: UniqueKey().toString()));
+          item.parent?.insertBefore(
+              item, IndexedTreeNode(key: UniqueKey().toString()));
         },
       ),
     );
@@ -175,7 +177,8 @@ class _MyHomePageState extends State<MyHomePage> {
         child:
             const Text("Insert Below", style: TextStyle(color: Colors.green)),
         onPressed: () {
-          item.parent?.insertAfter(item, IndexedTreeNode(key: UniqueKey().toString()));
+          item.parent
+              ?.insertAfter(item, IndexedTreeNode(key: UniqueKey().toString()));
         },
       ),
     );
