@@ -57,9 +57,7 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title),
-      ),
+      appBar: AppBar(title: Text(widget.title)),
       floatingActionButton: FloatingActionButton(
         onPressed: _nextTree,
         child: const Icon(Icons.fast_forward),
@@ -112,12 +110,11 @@ final nodesAddedTree = TreeNode.root()
 final levelOneNodesAdded = TreeNode.root()
   ..addAll([
     TreeNode(key: "0A")..add(TreeNode(key: "0A1A")),
-    TreeNode(key: "0C")
-      ..addAll([
-        TreeNode(key: "0C1A"),
-        TreeNode(key: "0C1B"),
-        TreeNode(key: "0C1C"),
-      ]),
+    TreeNode(key: "0C")..addAll([
+      TreeNode(key: "0C1A"),
+      TreeNode(key: "0C1B"),
+      TreeNode(key: "0C1C"),
+    ]),
     TreeNode(key: "0D"),
     TreeNode(key: "0E"),
   ]);
@@ -125,12 +122,11 @@ final levelOneNodesAdded = TreeNode.root()
 final levelTwoNodesAdded = TreeNode.root()
   ..addAll([
     TreeNode(key: "0A")..add(TreeNode(key: "0A1A")),
-    TreeNode(key: "0C")
-      ..addAll([
-        TreeNode(key: "0C1A"),
-        TreeNode(key: "0C1B"),
-        TreeNode(key: "0C1C")..addAll([TreeNode(key: "0C1C2A")]),
-      ]),
+    TreeNode(key: "0C")..addAll([
+      TreeNode(key: "0C1A"),
+      TreeNode(key: "0C1B"),
+      TreeNode(key: "0C1C")..addAll([TreeNode(key: "0C1C2A")]),
+    ]),
     TreeNode(key: "0D"),
     TreeNode(key: "0E"),
   ]);
@@ -138,70 +134,56 @@ final levelTwoNodesAdded = TreeNode.root()
 final levelThreeNodesAdded = TreeNode.root()
   ..addAll([
     TreeNode(key: "0A")..add(TreeNode(key: "0A1A")),
-    TreeNode(key: "0C")
-      ..addAll([
-        TreeNode(key: "0C1A"),
-        TreeNode(key: "0C1B"),
-        TreeNode(key: "0C1C")
-          ..addAll([
-            TreeNode(key: "0C1C2A")
-              ..addAll([
-                TreeNode(key: "0C1C2A3A"),
-                TreeNode(key: "0C1C2A3B"),
-                TreeNode(key: "0C1C2A3C"),
-              ]),
-          ]),
+    TreeNode(key: "0C")..addAll([
+      TreeNode(key: "0C1A"),
+      TreeNode(key: "0C1B"),
+      TreeNode(key: "0C1C")..addAll([
+        TreeNode(key: "0C1C2A")..addAll([
+          TreeNode(key: "0C1C2A3A"),
+          TreeNode(key: "0C1C2A3B"),
+          TreeNode(key: "0C1C2A3C"),
+        ]),
       ]),
+    ]),
     TreeNode(key: "0D"),
     TreeNode(key: "0E"),
   ]);
 
 final nodesRemoved = TreeNode.root()
   ..addAll([
-    TreeNode(key: "0C")
-      ..addAll([
-        TreeNode(key: "0C1A"),
-        TreeNode(key: "0C1B"),
-        TreeNode(key: "0C1C")
-          ..addAll([
-            TreeNode(key: "0C1C2A")
-              ..addAll([
-                TreeNode(key: "0C1C2A3A"),
-                TreeNode(key: "0C1C2A3B"),
-                TreeNode(key: "0C1C2A3C"),
-              ]),
-          ]),
+    TreeNode(key: "0C")..addAll([
+      TreeNode(key: "0C1A"),
+      TreeNode(key: "0C1B"),
+      TreeNode(key: "0C1C")..addAll([
+        TreeNode(key: "0C1C2A")..addAll([
+          TreeNode(key: "0C1C2A3A"),
+          TreeNode(key: "0C1C2A3B"),
+          TreeNode(key: "0C1C2A3C"),
+        ]),
       ]),
+    ]),
   ]);
 
 final levelOneNodesRemoved = TreeNode.root()
   ..addAll([
-    TreeNode(key: "0C")
-      ..addAll([
-        TreeNode(key: "0C1C")
-          ..addAll([
-            TreeNode(key: "0C1C2A")
-              ..addAll([
-                TreeNode(key: "0C1C2A3A"),
-                TreeNode(key: "0C1C2A3B"),
-                TreeNode(key: "0C1C2A3C"),
-              ]),
-          ]),
+    TreeNode(key: "0C")..addAll([
+      TreeNode(key: "0C1C")..addAll([
+        TreeNode(key: "0C1C2A")..addAll([
+          TreeNode(key: "0C1C2A3A"),
+          TreeNode(key: "0C1C2A3B"),
+          TreeNode(key: "0C1C2A3C"),
+        ]),
       ]),
+    ]),
   ]);
 
 final levelTwoNodesRemoved = TreeNode.root()
   ..addAll([
-    TreeNode(key: "0C")
-      ..addAll([
-        TreeNode(key: "0C1C")
-          ..addAll([
-            TreeNode(key: "0C1C2A")
-              ..addAll([
-                TreeNode(key: "0C1C2A3C"),
-              ]),
-          ]),
+    TreeNode(key: "0C")..addAll([
+      TreeNode(key: "0C1C")..addAll([
+        TreeNode(key: "0C1C2A")..addAll([TreeNode(key: "0C1C2A3C")]),
       ]),
+    ]),
   ]);
 
 final levelThreeNodesRemoved = TreeNode.root()

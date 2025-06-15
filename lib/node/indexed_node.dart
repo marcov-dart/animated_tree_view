@@ -29,11 +29,13 @@ class IndexedNode extends INode implements IIndexedNodeActions {
   /// If a [key] is not provided, then a [UniqueKey] will automatically be
   /// assigned to the [Node].
   IndexedNode({String? key, IndexedNode? parent})
-      : assert(key == null || !key.contains(INode.pathSeperator),
-            "Key should not contain the PATH_SEPARATOR '${INode.pathSeperator}'"),
-        children = <IndexedNode>[],
-        key = key ?? const UuidV4().generate(),
-        _parent = parent;
+    : assert(
+        key == null || !key.contains(INode.pathSeperator),
+        "Key should not contain the PATH_SEPARATOR '${INode.pathSeperator}'",
+      ),
+      children = <IndexedNode>[],
+      key = key ?? const UuidV4().generate(),
+      _parent = parent;
 
   /// Alternate factory constructor that should be used for the [root] nodes.
   factory IndexedNode.root() => IndexedNode(key: INode.rootKey);
@@ -80,8 +82,10 @@ class IndexedNode extends INode implements IIndexedNodeActions {
   /// An optional [orElse] function can be provided to handle the [test] is not
   /// able to find any node that matches the provided criterion.
   @override
-  IndexedNode firstWhere(bool Function(IndexedNode element) test,
-      {IndexedNode Function()? orElse}) {
+  IndexedNode firstWhere(
+    bool Function(IndexedNode element) test, {
+    IndexedNode Function()? orElse,
+  }) {
     return children.firstWhere(test, orElse: orElse);
   }
 
@@ -98,8 +102,10 @@ class IndexedNode extends INode implements IIndexedNodeActions {
   /// An optional [orElse] function can be provided to handle the [test] is not
   /// able to find any node that matches the provided criterion.
   @override
-  IndexedNode lastWhere(bool Function(IndexedNode element) test,
-      {IndexedNode Function()? orElse}) {
+  IndexedNode lastWhere(
+    bool Function(IndexedNode element) test, {
+    IndexedNode Function()? orElse,
+  }) {
     return children.lastWhere(test, orElse: orElse);
   }
 
@@ -241,8 +247,9 @@ class IndexedNode extends INode implements IIndexedNodeActions {
       if (nodeKey == currentNode.key) {
         continue;
       } else {
-        final index =
-            currentNode.children.indexWhere((node) => node.key == nodeKey);
+        final index = currentNode.children.indexWhere(
+          (node) => node.key == nodeKey,
+        );
         if (index < 0) {
           throw NodeNotFoundException(parentKey: path, key: nodeKey);
         }

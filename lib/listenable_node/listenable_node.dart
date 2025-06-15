@@ -79,13 +79,13 @@ class ListenableNode extends Node
   /// The insertNodes stream is not allowed for the ListenableNode.
   /// The index based operations like 'insert' are not implemented in ListenableNode
   @override
-  Stream<
-      NodeInsertEvent<
-          INode>> get insertedNodes => throw ActionNotAllowedException(
-      this,
-      "The insertNodes stream is not allowed"
-      "for the ListenableNode. The index based operations like 'insert' are "
-      "not implemented in ListenableNode");
+  Stream<NodeInsertEvent<INode>> get insertedNodes =>
+      throw ActionNotAllowedException(
+        this,
+        "The insertNodes stream is not allowed"
+        "for the ListenableNode. The index based operations like 'insert' are "
+        "not implemented in ListenableNode",
+      );
 
   /// Add a [value] node to the [children]
   ///

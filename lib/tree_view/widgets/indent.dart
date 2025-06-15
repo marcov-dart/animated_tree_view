@@ -155,10 +155,7 @@ class _IndentationPainter extends CustomPainter {
 
     final center = Size(totalWidth - 12, size.height / 2);
 
-    final topOrigin = Offset(
-      center.width + indentation.offset.dx,
-      0,
-    );
+    final topOrigin = Offset(center.width + indentation.offset.dx, 0);
 
     final cornerOuter = Offset(
       center.width + indentation.offset.dx - strokeWidth / 2,
@@ -170,26 +167,21 @@ class _IndentationPainter extends CustomPainter {
       center.height + indentation.offset.dy + strokeWidth / 2,
     );
 
-    final end = Offset(
-      totalWidth,
-      center.height + indentation.offset.dy,
-    );
+    final end = Offset(totalWidth, center.height + indentation.offset.dy);
 
-    final bottom = Offset(
-      center.width + indentation.offset.dx,
-      size.height,
-    );
+    final bottom = Offset(center.width + indentation.offset.dx, size.height);
 
     switch (indentation.style) {
       case IndentStyle.scopingLine:
         canvas.drawRect(
-            Rect.fromLTRB(
-              topOrigin.dx - 0.35,
-              topOrigin.dy,
-              topOrigin.dx + strokeWidth - 0.35,
-              bottom.dy,
-            ),
-            paint);
+          Rect.fromLTRB(
+            topOrigin.dx - 0.35,
+            topOrigin.dy,
+            topOrigin.dx + strokeWidth - 0.35,
+            bottom.dy,
+          ),
+          paint,
+        );
         break;
       case IndentStyle.roundJoint:
         _drawWithRoundedCorners(
@@ -347,13 +339,14 @@ class _IndentationPainter extends CustomPainter {
   }) {
     if (drawLastChild || lastChildCacheManager.isLastChild(node) == false) {
       canvas.drawRect(
-          Rect.fromLTRB(
-            origin.dx - 0.5,
-            origin.dy,
-            origin.dx + strokeWidth - 0.5,
-            bottom,
-          ),
-          paint);
+        Rect.fromLTRB(
+          origin.dx - 0.5,
+          origin.dy,
+          origin.dx + strokeWidth - 0.5,
+          bottom,
+        ),
+        paint,
+      );
     }
 
     if (node.parent != null) {

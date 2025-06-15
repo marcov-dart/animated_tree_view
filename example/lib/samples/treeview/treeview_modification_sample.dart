@@ -39,9 +39,7 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       key: globalKey,
-      appBar: AppBar(
-        title: Text(widget.title),
-      ),
+      appBar: AppBar(title: Text(widget.title)),
       body: TreeView.simple(
         tree: TreeNode.root(),
         expansionBehavior: ExpansionBehavior.scrollToLastChild,
@@ -71,7 +69,7 @@ class _MyHomePageState extends State<MyHomePage> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 buildAddItemChildButton(node),
-                if (node.children.isNotEmpty) buildClearAllItemButton(node)
+                if (node.children.isNotEmpty) buildClearAllItemButton(node),
               ],
             ),
           ],
@@ -91,10 +89,7 @@ class _MyHomePageState extends State<MyHomePage> {
           mainAxisSize: MainAxisSize.min,
           mainAxisAlignment: MainAxisAlignment.end,
           crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            buildRemoveItemButton(node),
-            buildAddItemButton(node),
-          ],
+          children: [buildRemoveItemButton(node), buildAddItemButton(node)],
         ),
       ),
     );
@@ -135,15 +130,16 @@ class _MyHomePageState extends State<MyHomePage> {
     return Padding(
       padding: const EdgeInsets.only(right: 16.0),
       child: TextButton.icon(
-          style: TextButton.styleFrom(
-            foregroundColor: Colors.red[800],
-            shape: const RoundedRectangleBorder(
-              borderRadius: BorderRadius.all(Radius.circular(4)),
-            ),
+        style: TextButton.styleFrom(
+          foregroundColor: Colors.red[800],
+          shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.all(Radius.circular(4)),
           ),
-          icon: const Icon(Icons.delete, color: Colors.red),
-          label: const Text("Clear All", style: TextStyle(color: Colors.red)),
-          onPressed: () => item.clear()),
+        ),
+        icon: const Icon(Icons.delete, color: Colors.red),
+        label: const Text("Clear All", style: TextStyle(color: Colors.red)),
+        onPressed: () => item.clear(),
+      ),
     );
   }
 }

@@ -40,7 +40,7 @@ class TreeNode<T> extends ListenableNode with ITreeNode<T> {
   /// A [TreeNode] constructor that can be used with the [TreeView].
   /// Any data of type [T] can be wrapped with [TreeNode]
   TreeNode({T? data, super.key, super.parent})
-      : listenableData = ValueNotifier(data);
+    : listenableData = ValueNotifier(data);
 
   /// Factory constructor to be used only for root [TreeNode]
   factory TreeNode.root({T? data}) => TreeNode(key: INode.rootKey, data: data);
@@ -63,7 +63,7 @@ class IndexedTreeNode<T> extends IndexedListenableNode with ITreeNode<T> {
   /// A [IndexedTreeNode] constructor that can be used with the [IndexedTreeView].
   /// Any data of type [T] can be wrapped with [IndexedTreeView]
   IndexedTreeNode({T? data, super.key, super.parent})
-      : listenableData = ValueNotifier(data);
+    : listenableData = ValueNotifier(data);
 
   /// Factory constructor to be used only for root [IndexedTreeNode]
   factory IndexedTreeNode.root({T? data}) =>

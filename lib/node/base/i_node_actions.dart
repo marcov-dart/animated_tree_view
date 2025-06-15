@@ -62,8 +62,10 @@ abstract class IIndexedNodeActions extends INodeActions {
   /// Get the first child node that matches the criterion in the [test].
   /// An optional [orElse] function can be provided to handle the [test] is not
   /// able to find any node that matches the provided criterion.
-  IndexedNode firstWhere(bool Function(IndexedNode element) test,
-      {IndexedNode Function()? orElse});
+  IndexedNode firstWhere(
+    bool Function(IndexedNode element) test, {
+    IndexedNode Function()? orElse,
+  });
 
   /// Get the index of the first child node that matches the criterion in the
   /// [test].
@@ -74,6 +76,8 @@ abstract class IIndexedNodeActions extends INodeActions {
   /// Get the last child node that matches the criterion in the [test].
   /// An optional [orElse] function can be provided to handle the [test] is not
   /// able to find any node that matches the provided criterion.
-  IndexedNode lastWhere(bool Function(IndexedNode element) test,
-      {IndexedNode Function()? orElse});
+  IndexedNode lastWhere(
+    bool Function(IndexedNode element) test, {
+    IndexedNode Function()? orElse,
+  });
 }

@@ -58,9 +58,7 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title),
-      ),
+      appBar: AppBar(title: Text(widget.title)),
       floatingActionButton: FloatingActionButton(
         onPressed: _nextTree,
         child: const Icon(Icons.fast_forward),
@@ -96,13 +94,12 @@ final defaultTree = TreeNode.root()
   ..addAll([
     TreeNode(key: "0A", data: 'd_0A')
       ..add(TreeNode(key: "0A1A", data: 'd_0A1A')),
-    TreeNode(key: "0C", data: 'd_0C')
-      ..addAll([
-        TreeNode(key: "0C1A", data: 'd_0C1A'),
-        TreeNode(key: "0C1B", data: 'd_0C1B'),
-        TreeNode(key: "0C1C", data: 'd_0C1C')
-          ..addAll([TreeNode(key: "0C1C2A", data: 'd_0C1C2A')]),
-      ]),
+    TreeNode(key: "0C", data: 'd_0C')..addAll([
+      TreeNode(key: "0C1A", data: 'd_0C1A'),
+      TreeNode(key: "0C1B", data: 'd_0C1B'),
+      TreeNode(key: "0C1C", data: 'd_0C1C')
+        ..addAll([TreeNode(key: "0C1C2A", data: 'd_0C1C2A')]),
+    ]),
     TreeNode(key: "0D", data: 'd_0D'),
     TreeNode(key: "0E", data: 'd_0E'),
   ]);
@@ -111,13 +108,12 @@ final updatedTree = TreeNode.root()
   ..addAll([
     TreeNode(key: "0A", data: 'd_0A2')
       ..add(TreeNode(key: "0A1A", data: 'd_0A1A2')),
-    TreeNode(key: "0C", data: 'd_0C2')
-      ..addAll([
-        TreeNode(key: "0C1A", data: 'd_0C1A2'),
-        TreeNode(key: "0C1B", data: 'd_0C1B2'),
-        TreeNode(key: "0C1C", data: 'd_0C1C2')
-          ..addAll([TreeNode(key: "0C1C2A", data: 'd_0C1C2A2')]),
-      ]),
+    TreeNode(key: "0C", data: 'd_0C2')..addAll([
+      TreeNode(key: "0C1A", data: 'd_0C1A2'),
+      TreeNode(key: "0C1B", data: 'd_0C1B2'),
+      TreeNode(key: "0C1C", data: 'd_0C1C2')
+        ..addAll([TreeNode(key: "0C1C2A", data: 'd_0C1C2A2')]),
+    ]),
     TreeNode(key: "0D", data: 'd_0D2'),
     TreeNode(key: "0E", data: 'd_0E2'),
   ]);
@@ -126,13 +122,12 @@ final updatedTree2 = TreeNode.root()
   ..addAll([
     TreeNode(key: "0A", data: 'd_0A3')
       ..add(TreeNode(key: "0A1A", data: 'd_0A1A3')),
-    TreeNode(key: "0C", data: 'd_0C23')
-      ..addAll([
-        TreeNode(key: "0C1A", data: 'd_0C1A3'),
-        TreeNode(key: "0C1B", data: 'd_0C1B3'),
-        TreeNode(key: "0C1C", data: 'd_0C1C3')
-          ..addAll([TreeNode(key: "0C1C2A", data: 'd_0C1C2A3')]),
-      ]),
+    TreeNode(key: "0C", data: 'd_0C23')..addAll([
+      TreeNode(key: "0C1A", data: 'd_0C1A3'),
+      TreeNode(key: "0C1B", data: 'd_0C1B3'),
+      TreeNode(key: "0C1C", data: 'd_0C1C3')
+        ..addAll([TreeNode(key: "0C1C2A", data: 'd_0C1C2A3')]),
+    ]),
     TreeNode(key: "0D", data: 'd_0D3'),
     TreeNode(key: "0E", data: 'd_0E3'),
   ]);

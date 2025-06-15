@@ -27,11 +27,13 @@ class Node extends INode implements INodeActions {
   /// If a [key] is not provided, then a [UniqueKey] will automatically be
   /// assigned to the [Node].
   Node({String? key, Node? parent})
-      : assert(key == null || !key.contains(INode.pathSeperator),
-            "Key should not contain the PATH_SEPARATOR '${INode.pathSeperator}'"),
-        children = <String, Node>{},
-        key = key ?? const UuidV4().generate(),
-        _parent = parent;
+    : assert(
+        key == null || !key.contains(INode.pathSeperator),
+        "Key should not contain the PATH_SEPARATOR '${INode.pathSeperator}'",
+      ),
+      children = <String, Node>{},
+      key = key ?? const UuidV4().generate(),
+      _parent = parent;
 
   /// Alternate factory constructor that should be used for the [root] nodes.
   factory Node.root() => Node(key: INode.rootKey);

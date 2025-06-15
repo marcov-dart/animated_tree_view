@@ -51,9 +51,7 @@ class MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title),
-      ),
+      appBar: AppBar(title: Text(widget.title)),
       floatingActionButton: ValueListenableBuilder<bool>(
         valueListenable: sampleTree.expansionNotifier,
         builder: (context, isExpanded, _) {
@@ -76,10 +74,10 @@ class MyHomePageState extends State<MyHomePage> {
         showRootNode: true,
         expansionIndicatorBuilder: (context, node) =>
             ChevronIndicator.rightDown(
-          tree: node,
-          color: Colors.blue[700],
-          padding: const EdgeInsets.all(8),
-        ),
+              tree: node,
+              color: Colors.blue[700],
+              padding: const EdgeInsets.all(8),
+            ),
         indentation: const Indentation(style: IndentStyle.roundJoint),
         onItemTap: (item) {
           if (kDebugMode) print("Item tapped: ${item.key}");
@@ -112,20 +110,17 @@ class MyHomePageState extends State<MyHomePage> {
 final sampleTree = TreeNode.root()
   ..addAll([
     TreeNode(key: "0A")..add(TreeNode(key: "0A1A")),
-    TreeNode(key: "0C")
-      ..addAll([
-        TreeNode(key: "0C1A"),
-        TreeNode(key: "0C1B"),
-        TreeNode(key: "0C1C")
-          ..addAll([
-            TreeNode(key: "0C1C2A")
-              ..addAll([
-                TreeNode(key: "0C1C2A3A"),
-                TreeNode(key: "0C1C2A3B"),
-                TreeNode(key: "0C1C2A3C"),
-              ]),
-          ]),
+    TreeNode(key: "0C")..addAll([
+      TreeNode(key: "0C1A"),
+      TreeNode(key: "0C1B"),
+      TreeNode(key: "0C1C")..addAll([
+        TreeNode(key: "0C1C2A")..addAll([
+          TreeNode(key: "0C1C2A3A"),
+          TreeNode(key: "0C1C2A3B"),
+          TreeNode(key: "0C1C2A3C"),
+        ]),
       ]),
+    ]),
     TreeNode(key: "0D"),
     TreeNode(key: "0E"),
   ]);

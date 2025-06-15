@@ -18,9 +18,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: const MyHomePage(
-        title: 'Indexed TreeView Modification Demo',
-      ),
+      home: const MyHomePage(title: 'Indexed TreeView Modification Demo'),
     );
   }
 }
@@ -41,9 +39,7 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title),
-      ),
+      appBar: AppBar(title: Text(widget.title)),
       body: SingleChildScrollView(
         child: Column(
           mainAxisSize: MainAxisSize.max,
@@ -55,18 +51,17 @@ class _MyHomePageState extends State<MyHomePage> {
               shrinkWrap: true,
               physics: const NeverScrollableScrollPhysics(),
               showRootNode: _showRootNode,
-              indentation: const Indentation(
-                style: IndentStyle.roundJoint,
-              ),
+              indentation: const Indentation(style: IndentStyle.roundJoint),
               builder: buildListItem,
             ),
             if (!_showRootNode)
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 8.0),
                 child: ElevatedButton.icon(
-                    onPressed: () => tree.add(IndexedTreeNode()),
-                    icon: const Icon(Icons.add),
-                    label: const Text("Add Node")),
+                  onPressed: () => tree.add(IndexedTreeNode()),
+                  icon: const Icon(Icons.add),
+                  label: const Text("Add Node"),
+                ),
               ),
             const SizedBox(height: 32),
           ],
@@ -94,7 +89,8 @@ class _MyHomePageState extends State<MyHomePage> {
               subtitle: Text(
                 'Level ${node.level}',
                 style: TextStyle(
-                    color: color.byLuminance().withValues(alpha: 0.5)),
+                  color: color.byLuminance().withValues(alpha: 0.5),
+                ),
               ),
               trailing: !node.isRoot ? buildRemoveItemButton(node) : null,
             ),
@@ -154,11 +150,15 @@ class _MyHomePageState extends State<MyHomePage> {
             borderRadius: BorderRadius.all(Radius.circular(4)),
           ),
         ),
-        child:
-            const Text("Insert Above", style: TextStyle(color: Colors.green)),
+        child: const Text(
+          "Insert Above",
+          style: TextStyle(color: Colors.green),
+        ),
         onPressed: () {
           item.parent?.insertBefore(
-              item, IndexedTreeNode(key: UniqueKey().toString()));
+            item,
+            IndexedTreeNode(key: UniqueKey().toString()),
+          );
         },
       ),
     );
@@ -174,11 +174,15 @@ class _MyHomePageState extends State<MyHomePage> {
             borderRadius: BorderRadius.all(Radius.circular(4)),
           ),
         ),
-        child:
-            const Text("Insert Below", style: TextStyle(color: Colors.green)),
+        child: const Text(
+          "Insert Below",
+          style: TextStyle(color: Colors.green),
+        ),
         onPressed: () {
-          item.parent
-              ?.insertAfter(item, IndexedTreeNode(key: UniqueKey().toString()));
+          item.parent?.insertAfter(
+            item,
+            IndexedTreeNode(key: UniqueKey().toString()),
+          );
         },
       ),
     );
@@ -188,14 +192,15 @@ class _MyHomePageState extends State<MyHomePage> {
     return Padding(
       padding: const EdgeInsets.only(right: 16.0),
       child: TextButton(
-          style: TextButton.styleFrom(
-            foregroundColor: Colors.red[800],
-            shape: const RoundedRectangleBorder(
-              borderRadius: BorderRadius.all(Radius.circular(4)),
-            ),
+        style: TextButton.styleFrom(
+          foregroundColor: Colors.red[800],
+          shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.all(Radius.circular(4)),
           ),
-          child: const Icon(Icons.delete, color: Colors.red),
-          onPressed: () => item.delete()),
+        ),
+        child: const Icon(Icons.delete, color: Colors.red),
+        onPressed: () => item.delete(),
+      ),
     );
   }
 
@@ -203,15 +208,16 @@ class _MyHomePageState extends State<MyHomePage> {
     return Padding(
       padding: const EdgeInsets.only(right: 16.0),
       child: TextButton.icon(
-          style: TextButton.styleFrom(
-            foregroundColor: Colors.red[800],
-            shape: const RoundedRectangleBorder(
-              borderRadius: BorderRadius.all(Radius.circular(4)),
-            ),
+        style: TextButton.styleFrom(
+          foregroundColor: Colors.red[800],
+          shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.all(Radius.circular(4)),
           ),
-          icon: const Icon(Icons.delete, color: Colors.red),
-          label: const Text("Clear All", style: TextStyle(color: Colors.red)),
-          onPressed: () => item.clear()),
+        ),
+        icon: const Icon(Icons.delete, color: Colors.red),
+        label: const Text("Clear All", style: TextStyle(color: Colors.red)),
+        onPressed: () => item.clear(),
+      ),
     );
   }
 }

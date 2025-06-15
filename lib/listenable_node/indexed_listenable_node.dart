@@ -74,8 +74,10 @@ class IndexedListenableNode extends IndexedNode
   /// An optional [orElse] function can be provided to handle the [test] is not
   /// able to find any node that matches the provided criterion.
   @override
-  IndexedListenableNode firstWhere(bool Function(IndexedNode element) test,
-      {IndexedNode Function()? orElse}) {
+  IndexedListenableNode firstWhere(
+    bool Function(IndexedNode element) test, {
+    IndexedNode Function()? orElse,
+  }) {
     return super.firstWhere(test, orElse: orElse) as IndexedListenableNode;
   }
 
@@ -92,8 +94,10 @@ class IndexedListenableNode extends IndexedNode
   /// An optional [orElse] function can be provided to handle the [test] is not
   /// able to find any node that matches the provided criterion.
   @override
-  IndexedListenableNode lastWhere(bool Function(IndexedNode element) test,
-      {IndexedNode Function()? orElse}) {
+  IndexedListenableNode lastWhere(
+    bool Function(IndexedNode element) test, {
+    IndexedNode Function()? orElse,
+  }) {
     return super.lastWhere(test, orElse: orElse) as IndexedListenableNode;
   }
 

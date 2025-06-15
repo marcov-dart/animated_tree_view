@@ -58,9 +58,7 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title),
-      ),
+      appBar: AppBar(title: Text(widget.title)),
       floatingActionButton: FloatingActionButton(
         onPressed: _nextTree,
         child: const Icon(Icons.fast_forward),
@@ -113,12 +111,11 @@ final nodesAddedTree = IndexedTreeNode.root()
 final levelOneNodesAdded = IndexedTreeNode.root()
   ..addAll([
     IndexedTreeNode(key: "0A")..add(IndexedTreeNode(key: "0A1A")),
-    IndexedTreeNode(key: "0C")
-      ..addAll([
-        IndexedTreeNode(key: "0C1A"),
-        IndexedTreeNode(key: "0C1B"),
-        IndexedTreeNode(key: "0C1C"),
-      ]),
+    IndexedTreeNode(key: "0C")..addAll([
+      IndexedTreeNode(key: "0C1A"),
+      IndexedTreeNode(key: "0C1B"),
+      IndexedTreeNode(key: "0C1C"),
+    ]),
     IndexedTreeNode(key: "0D"),
     IndexedTreeNode(key: "0E"),
   ]);
@@ -126,12 +123,11 @@ final levelOneNodesAdded = IndexedTreeNode.root()
 final levelTwoNodesAdded = IndexedTreeNode.root()
   ..addAll([
     IndexedTreeNode(key: "0A")..add(IndexedTreeNode(key: "0A1A")),
-    IndexedTreeNode(key: "0C")
-      ..addAll([
-        IndexedTreeNode(key: "0C1A"),
-        IndexedTreeNode(key: "0C1B"),
-        IndexedTreeNode(key: "0C1C")..addAll([IndexedTreeNode(key: "0C1C2A")]),
-      ]),
+    IndexedTreeNode(key: "0C")..addAll([
+      IndexedTreeNode(key: "0C1A"),
+      IndexedTreeNode(key: "0C1B"),
+      IndexedTreeNode(key: "0C1C")..addAll([IndexedTreeNode(key: "0C1C2A")]),
+    ]),
     IndexedTreeNode(key: "0D"),
     IndexedTreeNode(key: "0E"),
   ]);
@@ -139,70 +135,57 @@ final levelTwoNodesAdded = IndexedTreeNode.root()
 final levelThreeNodesAdded = IndexedTreeNode.root()
   ..addAll([
     IndexedTreeNode(key: "0A")..add(IndexedTreeNode(key: "0A1A")),
-    IndexedTreeNode(key: "0C")
-      ..addAll([
-        IndexedTreeNode(key: "0C1A"),
-        IndexedTreeNode(key: "0C1B"),
-        IndexedTreeNode(key: "0C1C")
-          ..addAll([
-            IndexedTreeNode(key: "0C1C2A")
-              ..addAll([
-                IndexedTreeNode(key: "0C1C2A3A"),
-                IndexedTreeNode(key: "0C1C2A3B"),
-                IndexedTreeNode(key: "0C1C2A3C"),
-              ]),
-          ]),
+    IndexedTreeNode(key: "0C")..addAll([
+      IndexedTreeNode(key: "0C1A"),
+      IndexedTreeNode(key: "0C1B"),
+      IndexedTreeNode(key: "0C1C")..addAll([
+        IndexedTreeNode(key: "0C1C2A")..addAll([
+          IndexedTreeNode(key: "0C1C2A3A"),
+          IndexedTreeNode(key: "0C1C2A3B"),
+          IndexedTreeNode(key: "0C1C2A3C"),
+        ]),
       ]),
+    ]),
     IndexedTreeNode(key: "0D"),
     IndexedTreeNode(key: "0E"),
   ]);
 
 final nodesRemoved = IndexedTreeNode.root()
   ..addAll([
-    IndexedTreeNode(key: "0C")
-      ..addAll([
-        IndexedTreeNode(key: "0C1A"),
-        IndexedTreeNode(key: "0C1B"),
-        IndexedTreeNode(key: "0C1C")
-          ..addAll([
-            IndexedTreeNode(key: "0C1C2A")
-              ..addAll([
-                IndexedTreeNode(key: "0C1C2A3A"),
-                IndexedTreeNode(key: "0C1C2A3B"),
-                IndexedTreeNode(key: "0C1C2A3C"),
-              ]),
-          ]),
+    IndexedTreeNode(key: "0C")..addAll([
+      IndexedTreeNode(key: "0C1A"),
+      IndexedTreeNode(key: "0C1B"),
+      IndexedTreeNode(key: "0C1C")..addAll([
+        IndexedTreeNode(key: "0C1C2A")..addAll([
+          IndexedTreeNode(key: "0C1C2A3A"),
+          IndexedTreeNode(key: "0C1C2A3B"),
+          IndexedTreeNode(key: "0C1C2A3C"),
+        ]),
       ]),
+    ]),
   ]);
 
 final levelOneNodesRemoved = IndexedTreeNode.root()
   ..addAll([
-    IndexedTreeNode(key: "0C")
-      ..addAll([
-        IndexedTreeNode(key: "0C1C")
-          ..addAll([
-            IndexedTreeNode(key: "0C1C2A")
-              ..addAll([
-                IndexedTreeNode(key: "0C1C2A3A"),
-                IndexedTreeNode(key: "0C1C2A3B"),
-                IndexedTreeNode(key: "0C1C2A3C"),
-              ]),
-          ]),
+    IndexedTreeNode(key: "0C")..addAll([
+      IndexedTreeNode(key: "0C1C")..addAll([
+        IndexedTreeNode(key: "0C1C2A")..addAll([
+          IndexedTreeNode(key: "0C1C2A3A"),
+          IndexedTreeNode(key: "0C1C2A3B"),
+          IndexedTreeNode(key: "0C1C2A3C"),
+        ]),
       ]),
+    ]),
   ]);
 
 final levelTwoNodesRemoved = IndexedTreeNode.root()
   ..addAll([
-    IndexedTreeNode(key: "0C")
-      ..addAll([
-        IndexedTreeNode(key: "0C1C")
-          ..addAll([
-            IndexedTreeNode(key: "0C1C2A")
-              ..addAll([
-                IndexedTreeNode(key: "0C1C2A3C"),
-              ]),
-          ]),
+    IndexedTreeNode(key: "0C")..addAll([
+      IndexedTreeNode(key: "0C1C")..addAll([
+        IndexedTreeNode(key: "0C1C2A")
+          ..addAll([IndexedTreeNode(key: "0C1C2A3C")]),
       ]),
+    ]),
   ]);
 
 final levelThreeNodesRemoved = IndexedTreeNode.root()
