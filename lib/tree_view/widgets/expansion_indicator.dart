@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import '../../constants/constants.dart';
 import '../tree_node.dart';
 
-typedef ExpansionIndicatorBuilder<Data> = ExpansionIndicator Function(
-    BuildContext, ITreeNode<Data>);
+typedef ExpansionIndicatorBuilder<Data> =
+    ExpansionIndicator Function(BuildContext, ITreeNode<Data>);
 
 class PositionedExpansionIndicator extends StatelessWidget {
   final ExpansionIndicator expansionIndicator;
@@ -63,7 +63,8 @@ abstract class ExpansionIndicator extends StatefulWidget {
 }
 
 abstract class ExpansionIndicatorState<T extends ExpansionIndicator>
-    extends State<T> with TickerProviderStateMixin {
+    extends State<T>
+    with TickerProviderStateMixin {
   late final AnimationController controller = AnimationController(
     duration: animationDuration,
     vsync: this,
@@ -138,17 +139,16 @@ class ChevronIndicator extends ExpansionIndicator {
     Curve curve = Curves.linearToEaseOut,
     Color? color,
     IconData? icon,
-  }) =>
-      ChevronIndicator._(
-        key: key,
-        tree: tree,
-        tween: Tween(begin: 0, end: 0.25),
-        icon: icon ?? Icons.keyboard_arrow_right_rounded,
-        alignment: alignment,
-        padding: padding,
-        curve: curve,
-        color: color,
-      );
+  }) => ChevronIndicator._(
+    key: key,
+    tree: tree,
+    tween: Tween(begin: 0, end: 0.25),
+    icon: icon ?? Icons.keyboard_arrow_right_rounded,
+    alignment: alignment,
+    padding: padding,
+    curve: curve,
+    color: color,
+  );
 
   /// Uses a chevron to indicate the expansion state.
   /// The chevron is rotated when the [ITreeNode] state expands or collapses.
@@ -164,17 +164,16 @@ class ChevronIndicator extends ExpansionIndicator {
     Curve curve = Curves.linearToEaseOut,
     Color? color,
     IconData? icon,
-  }) =>
-      ChevronIndicator._(
-        key: key,
-        tree: tree,
-        tween: Tween(begin: 1, end: 0.50),
-        icon: icon ?? Icons.keyboard_arrow_up_rounded,
-        alignment: alignment,
-        padding: padding,
-        curve: curve,
-        color: color,
-      );
+  }) => ChevronIndicator._(
+    key: key,
+    tree: tree,
+    tween: Tween(begin: 1, end: 0.50),
+    icon: icon ?? Icons.keyboard_arrow_up_rounded,
+    alignment: alignment,
+    padding: padding,
+    curve: curve,
+    color: color,
+  );
 
   @override
   State<StatefulWidget> createState() => _RotatedIndicatorState();
@@ -190,9 +189,9 @@ class _RotatedIndicatorState extends ExpansionIndicatorState<ChevronIndicator> {
 
     return switch (Directionality.of(context)) {
       TextDirection.rtl => Transform.flip(
-          flipX: true,
-          child: rotationTransition,
-        ),
+        flipX: true,
+        child: rotationTransition,
+      ),
       TextDirection.ltr => rotationTransition,
     };
   }
@@ -231,8 +230,9 @@ class _PlusMinusIndicatorState
           RotationTransition(
             turns: tween.animate(controller),
             child: RotatedBox(
-                quarterTurns: 1,
-                child: Icon(Icons.remove, color: widget.color)),
+              quarterTurns: 1,
+              child: Icon(Icons.remove, color: widget.color),
+            ),
           ),
           Icon(Icons.remove, color: widget.color),
         ],

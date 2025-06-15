@@ -14,16 +14,20 @@ import 'tree_view.dart';
 abstract class ListState<Tree> {
   void insertItem(int index, {Duration duration = animationDuration});
 
-  void removeItem(int index, Tree item,
-      {Duration duration = animationDuration});
+  void removeItem(
+    int index,
+    Tree item, {
+    Duration duration = animationDuration,
+  });
 }
 
-class TreeViewStateHelper<Data> {
+class TreeViewStateHelper<Data, Tree extends ITreeNode<Data>> {
   static const tag = "TreeViewStateHelper";
 
-  final ITreeNode<Data> tree;
-  final AnimatedListStateController<Data> animatedListStateController;
-  final TreeViewExpansionBehaviourController<Data> expansionBehaviourController;
+  final Tree tree;
+  final AnimatedListStateController<Data, Tree> animatedListStateController;
+  final TreeViewExpansionBehaviourController<Data, Tree>
+  expansionBehaviourController;
   final bool focusToNewNode;
 
   late StreamSubscription<NodeAddEvent<INode>> _addedNodesSubscription;
@@ -40,8 +44,9 @@ class TreeViewStateHelper<Data> {
     _removeNodesSubscription = tree.removedNodes.listen(handleRemoveItemsEvent);
 
     try {
-      _insertNodesSubscription =
-          tree.insertedNodes.listen(handleInsertItemsEvent);
+      _insertNodesSubscription = tree.insertedNodes.listen(
+        handleInsertItemsEvent,
+      );
     } on ActionNotAllowedException catch (_) {}
   }
 
@@ -51,21 +56,24 @@ class TreeViewStateHelper<Data> {
       if (animatedListStateController.containsKey(node.path)) continue;
 
       if (node.isRoot || node.parent?.isRoot == true) {
-        final root = node.root as ITreeNode<Data>;
+        final root = node.root as Tree;
         if (!root.isExpanded) {
           if (focusToNewNode) {
             expansionBehaviourController.expandNode(root);
           }
         } else {
           animatedListStateController.insertAll(
-              animatedListStateController.list.length, List.from(event.items));
+            animatedListStateController.list.length,
+            List.from(event.items),
+          );
         }
         if (focusToNewNode) {
           expansionBehaviourController.scrollToLastVisibleChild(root);
         }
       } else {
-        final parentIndex = animatedListStateController.list
-            .indexWhere((element) => element.key == node.parent?.key);
+        final parentIndex = animatedListStateController.list.indexWhere(
+          (element) => element.key == node.parent?.key,
+        );
         if (parentIndex < 0) continue;
 
         final parentNode = animatedListStateController.list[parentIndex];
@@ -76,9 +84,10 @@ class TreeViewStateHelper<Data> {
           // if the node is expanded, add the items in the flatList and
           // the animatedList
           final insertAtIndex = animatedListStateController.list.lastIndexWhere(
-              (element) =>
-                  element.path.startsWith(parentNode.path) &&
-                  element.level > parentNode.level);
+            (element) =>
+                element.path.startsWith(parentNode.path) &&
+                element.level > parentNode.level,
+          );
           if (insertAtIndex < 0) {
             animatedListStateController.insertAll(
               animatedListStateController.length - 1,
@@ -108,22 +117,25 @@ class TreeViewStateHelper<Data> {
 
     for (final node in event.items) {
       if (animatedListStateController.containsKey(node.path)) continue;
-      late ITreeNode<Data> parentNode;
+      late Tree parentNode;
       late int parentIndex;
 
       if (node.isRoot || node.parent?.isRoot == true) {
-        parentNode = node.root as ITreeNode<Data>;
+        parentNode = node.root as Tree;
         parentIndex = 0;
       } else {
-        parentIndex = animatedListStateController.list
-            .indexWhere((element) => element.key == node.parent?.key);
+        parentIndex = animatedListStateController.list.indexWhere(
+          (element) => element.key == node.parent?.key,
+        );
 
         parentNode = animatedListStateController.list[parentIndex];
       }
 
       if (parentNode.isExpanded) {
-        final actualIndex =
-            computeActualIndex(parentIndex + event.index, parentNode.level);
+        final actualIndex = computeActualIndex(
+          parentIndex + event.index,
+          parentNode.level,
+        );
 
         animatedListStateController.insertAll(
           actualIndex + 1,
@@ -156,19 +168,24 @@ class TreeViewStateHelper<Data> {
       if (!animatedListStateController.containsKey(node.path)) continue;
 
       //if item is in the root of the list, then remove the item
-      if (animatedListStateController.list
-          .any((item) => item.key == node.key)) {
+      if (animatedListStateController.list.any(
+        (item) => item.key == node.key,
+      )) {
         final index = animatedListStateController.indexOf(node);
         if (index < 0) continue;
         final removedItem = animatedListStateController.removeAt(index);
 
         if (removedItem.isExpanded) {
           //if the item is expanded, also remove its children
-          animatedListStateController.removeAll(animatedListStateController.list
-              .where((element) =>
-                  !element.isRoot &&
-                  (element.path).startsWith(removedItem.path))
-              .toList());
+          animatedListStateController.removeAll(
+            animatedListStateController.list
+                .where(
+                  (element) =>
+                      !element.isRoot &&
+                      (element.path).startsWith(removedItem.path),
+                )
+                .toList(),
+          );
         }
       }
     }
@@ -183,46 +200,45 @@ class TreeViewStateHelper<Data> {
   }
 }
 
-class AnimatedListStateController<Data> {
+class AnimatedListStateController<Data, Tree extends ITreeNode<Data>> {
   final bool showRootNode;
-  final ListState<ITreeNode<Data>> _listState;
+  final ListState<Tree> _listState;
 
-  late final List<ITreeNode<Data>> _flatList;
-  late final Map<String, ITreeNode<Data>> _itemsMap;
+  late final List<Tree> _flatList;
+  late final Map<String, Tree> _itemsMap;
 
   AnimatedListStateController({
-    required ListState<ITreeNode<Data>> listState,
+    required ListState<Tree> listState,
     required this.showRootNode,
-    required ITreeNode<Data> tree,
+    required Tree tree,
   }) : _listState = listState {
     _flatList = List.from(showRootNode ? [tree] : tree.root.childrenAsList);
-    _itemsMap = <String, ITreeNode<Data>>{
-      for (final node in _flatList) node.path: node
-    };
+    _itemsMap = <String, Tree>{for (final node in _flatList) node.path: node};
   }
 
-  List<ITreeNode<Data>> get list => UnmodifiableListView(_flatList);
+  List<Tree> get list => UnmodifiableListView(_flatList);
 
   int get length => _flatList.length;
 
   bool containsKey(String key) => _itemsMap.containsKey(key);
 
   int indexOf(INode item) => _flatList.indexWhere(
-      (e) => e.parent?.key == item.parent?.key && e.key == item.key);
+    (e) => e.parent?.key == item.parent?.key && e.key == item.key,
+  );
 
-  void insert(int index, ITreeNode<Data> item) {
+  void insert(int index, Tree item) {
     _flatList.insert(index, item);
     _itemsMap[item.path] = item;
     _listState.insertItem(index);
   }
 
-  void insertAll(int index, List<ITreeNode<Data>> items) {
+  void insertAll(int index, List<Tree> items) {
     for (int i = 0; i < items.length; i++) {
       insert(index + i, items[i]);
     }
   }
 
-  ITreeNode<Data> removeAt(int index) {
+  Tree removeAt(int index) {
     if (index < 0 || index > _flatList.length) {
       throw RangeError.index(index, _flatList);
     }
@@ -234,12 +250,12 @@ class AnimatedListStateController<Data> {
     return removedItem;
   }
 
-  void remove(ITreeNode<Data> item) {
+  void remove(Tree item) {
     final index = indexOf(item);
     if (index >= 0) removeAt(indexOf(item));
   }
 
-  Future<void> removeAll(List<ITreeNode<Data>> items) async {
+  Future<void> removeAll(List<Tree> items) async {
     await Future.wait(
       items.map((item) {
         item.expansionNotifier.value = false;
@@ -249,10 +265,10 @@ class AnimatedListStateController<Data> {
   }
 }
 
-class TreeViewExpansionBehaviourController<Data> {
-  final AnimatedListStateController<Data> animatedListStateController;
+class TreeViewExpansionBehaviourController<Data, Tree extends ITreeNode<Data>> {
+  final AnimatedListStateController<Data, Tree> animatedListStateController;
   final AutoScrollController scrollController;
-  final Function(ITreeNode<Data> item)? onExpandNode;
+  final Function(Tree item)? onExpandNode;
   ExpansionBehavior expansionBehavior;
 
   TreeViewExpansionBehaviourController({
@@ -262,24 +278,32 @@ class TreeViewExpansionBehaviourController<Data> {
     this.onExpandNode,
   });
 
-  Future scrollToIndex(int index,
-          [Duration duration = scrollAnimationDuration]) async =>
-      await scrollController.scrollToIndex(index,
-          preferPosition: AutoScrollPosition.begin, duration: duration);
+  Future scrollToIndex(
+    int index, [
+    Duration duration = scrollAnimationDuration,
+  ]) async => await scrollController.scrollToIndex(
+    index,
+    preferPosition: AutoScrollPosition.begin,
+    duration: duration,
+  );
 
-  Future scrollToItem(ITreeNode<Data> item,
-          [Duration duration = scrollAnimationDuration]) async =>
+  Future scrollToItem(
+    Tree item, [
+    Duration duration = scrollAnimationDuration,
+  ]) async =>
       await scrollToIndex(animatedListStateController.indexOf(item), duration);
 
-  Future<void> collapseNode(ITreeNode<Data> item) async {
-    final removeItems = animatedListStateController.list.where((element) =>
-        (element.path).startsWith('${item.path}${INode.pathSeperator}'));
+  Future<void> collapseNode(Tree item) async {
+    final removeItems = animatedListStateController.list.where(
+      (element) =>
+          (element.path).startsWith('${item.path}${INode.pathSeperator}'),
+    );
 
     await animatedListStateController.removeAll(removeItems.toList());
     item.expansionNotifier.value = false;
   }
 
-  void expandNode(ITreeNode<Data> item) {
+  void expandNode(Tree item) {
     if (item.childrenAsList.isEmpty || item.isExpanded) return;
     onExpandNode?.call(item);
 
@@ -291,7 +315,7 @@ class TreeViewExpansionBehaviourController<Data> {
     item.expansionNotifier.value = true;
   }
 
-  Future<void> toggleExpansion(ITreeNode<Data> item) async {
+  Future<void> toggleExpansion(Tree item) async {
     if (item.isExpanded) {
       await collapseNode(item);
     } else {
@@ -300,7 +324,7 @@ class TreeViewExpansionBehaviourController<Data> {
     }
   }
 
-  Future<void> applyExpansionBehavior(ITreeNode<Data> item) async {
+  Future<void> applyExpansionBehavior(Tree item) async {
     switch (expansionBehavior) {
       case ExpansionBehavior.none:
         break;
@@ -333,19 +357,24 @@ class TreeViewExpansionBehaviourController<Data> {
     final lastChildIndex = animatedListStateController.indexOf(lastChild);
 
     //scroll to the last child if it is not visible in the viewPort
-    if (!scrollController.isIndexStateInLayoutRange(lastChildIndex +
-        parent.level.clamp(1, 1000) +
-        parent.childrenAsList.length)) {
+    if (!scrollController.isIndexStateInLayoutRange(
+      lastChildIndex +
+          parent.level.clamp(1, 1000) +
+          parent.childrenAsList.length,
+    )) {
       await scrollController.scrollToIndex(
-          lastChildIndex < animatedListStateController.list.length - 1
-              ? lastChildIndex + 1
-              : lastChildIndex,
-          preferPosition: AutoScrollPosition.end);
+        lastChildIndex < animatedListStateController.list.length - 1
+            ? lastChildIndex + 1
+            : lastChildIndex,
+        preferPosition: AutoScrollPosition.end,
+      );
     }
   }
 
-  Future<void> snapToTop(ITreeNode<Data> item,
-      {Duration delay = animationDuration}) async {
+  Future<void> snapToTop(
+    Tree item, {
+    Duration delay = animationDuration,
+  }) async {
     await Future.delayed(delay);
 
     await scrollController.scrollToIndex(
@@ -354,12 +383,12 @@ class TreeViewExpansionBehaviourController<Data> {
     );
   }
 
-  Future<void> collapseAllOtherSiblingNodes(ITreeNode<Data> node) async {
+  Future<void> collapseAllOtherSiblingNodes(Tree node) async {
     await Future.wait(
       (node.parent?.childrenAsList ?? []).map((siblingNode) {
         if (siblingNode.key != node.key &&
             (siblingNode as ITreeNode).isExpanded) {
-          return collapseNode(siblingNode as ITreeNode<Data>);
+          return collapseNode(siblingNode as Tree);
         }
         return Future.value();
       }),
@@ -367,8 +396,8 @@ class TreeViewExpansionBehaviourController<Data> {
   }
 }
 
-class LastChildCacheManager<Data> {
-  final ITreeNode<Data> tree;
+class LastChildCacheManager<Data, Tree extends ITreeNode<Data>> {
+  final Tree tree;
   final Map<INode, bool> _lastChildMap;
 
   late StreamSubscription<NodeAddEvent<INode>> _addedNodesSubscription;
@@ -378,11 +407,13 @@ class LastChildCacheManager<Data> {
   LastChildCacheManager(this.tree) : _lastChildMap = <INode, bool>{} {
     {
       _addedNodesSubscription = tree.addedNodes.listen(handleItemChangeEvent);
-      _removeNodesSubscription =
-          tree.removedNodes.listen(handleItemChangeEvent);
+      _removeNodesSubscription = tree.removedNodes.listen(
+        handleItemChangeEvent,
+      );
       try {
-        _insertNodesSubscription =
-            tree.insertedNodes.listen(handleItemChangeEvent);
+        _insertNodesSubscription = tree.insertedNodes.listen(
+          handleItemChangeEvent,
+        );
       } on ActionNotAllowedException catch (_) {}
     }
 
