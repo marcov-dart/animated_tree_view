@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../../animated_tree_view.dart';
 import '../../constants/constants.dart';
+import '../tree_node.dart';
 
 typedef ExpansionIndicatorBuilder<Data> = ExpansionIndicator Function(
     BuildContext, ITreeNode<Data>);

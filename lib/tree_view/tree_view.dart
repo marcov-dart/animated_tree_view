@@ -1,13 +1,18 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:scroll_to_index/scroll_to_index.dart';
 
-import '../animated_tree_view.dart';
 import '../constants/constants.dart';
+import '../node/base/i_node_actions.dart';
+import '../node/indexed_node.dart';
 import '../tree_diff/tree_diff_change.dart';
 import '../tree_diff/tree_diff_util.dart';
+import 'tree_node.dart';
 import 'tree_view_state_helper.dart';
 import 'widgets/expandable_node.dart';
+import 'widgets/expansion_indicator.dart';
+import 'widgets/indent.dart';
 
 ExpansionIndicator _defExpansionIndicatorBuilder<Data>(
         BuildContext context, ITreeNode<Data> tree) =>

@@ -1,7 +1,10 @@
 import 'package:flutter/foundation.dart';
 
-import '../animated_tree_view.dart';
 import '../listenable_node/base/i_listenable_node.dart';
+import '../listenable_node/indexed_listenable_node.dart';
+import '../listenable_node/listenable_node.dart';
+import '../node/base/i_node.dart';
+import 'tree_view.dart';
 
 /// Base class that allows a data of type [T] to be wrapped in a [ListenableNode]
 mixin ITreeNode<T> on IListenableNode implements ValueListenable<INode> {

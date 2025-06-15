@@ -3,8 +3,10 @@ import 'dart:collection';
 import 'package:diffutil_dart/diffutil.dart';
 import 'package:flutter/widgets.dart';
 
-import '../animated_tree_view.dart';
 import '../helpers/collection_utils.dart';
+import '../node/base/i_node.dart';
+import '../node/indexed_node.dart';
+import '../tree_view/tree_node.dart';
 import 'tree_diff_change.dart';
 
 List<TreeDiffNodeChange> calculateTreeDiff<T extends ITreeNode>(

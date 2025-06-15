@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:scroll_to_index/scroll_to_index.dart';
 
-import '../../animated_tree_view.dart';
+import '../../node/base/i_node.dart';
+import '../tree_node.dart';
+import '../tree_view.dart';
 import '../tree_view_state_helper.dart';
+import 'expansion_indicator.dart';
+import 'indent.dart';
 
 class ExpandableNodeItem<Data, Tree extends ITreeNode<Data>>
     extends StatelessWidget {
