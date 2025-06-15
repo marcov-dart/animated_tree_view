@@ -1,6 +1,7 @@
-import 'package:animated_tree_view/tree_view/tree_node.dart';
-import 'package:animated_tree_view/tree_view/tree_view_state_helper.dart';
 import 'package:flutter/material.dart';
+
+import '../tree_node.dart';
+import '../tree_view_state_helper.dart';
 
 enum IndentStyle {
   /// Do not apply any indentation or scoping lines
@@ -18,10 +19,10 @@ enum IndentStyle {
 
 /// Configuration class for building the [Indent].
 class Indentation {
-  static const DEF_INDENT_WIDTH = 24.0;
+  static const defaultIndentWidth = 24.0;
 
   /// The [width] that an [Indent] will take before building the actual content
-  /// By default [DEF_INDENT_WIDTH]=24.0 is used for [width].
+  /// By default [defaultIndentWidth]=24.0 is used for [width].
   final double width;
 
   /// Set an [offset] to move the [Indent] joint in the x, y directions.
@@ -44,7 +45,7 @@ class Indentation {
   final Color color;
 
   const Indentation({
-    this.width = DEF_INDENT_WIDTH,
+    this.width = defaultIndentWidth,
     this.thickness = 1,
     this.style = IndentStyle.squareJoint,
     this.color = const Color(0xFFBDBDBD),
@@ -102,8 +103,10 @@ class Indent extends StatelessWidget {
       child: child,
     );
 
-    if (node.level <= minLevelToIndent || indentation.style == IndentStyle.none)
+    if (node.level <= minLevelToIndent ||
+        indentation.style == IndentStyle.none) {
       return content;
+    }
 
     return CustomPaint(
       foregroundPainter: _IndentationPainter(
@@ -219,7 +222,7 @@ class _IndentationPainter extends CustomPainter {
         break;
     }
 
-    if (node.parent != null)
+    if (node.parent != null) {
       _drawScopingLines(
         canvas: canvas,
         origin: Offset(topOrigin.dx - indentation.width, topOrigin.dy),
@@ -229,6 +232,7 @@ class _IndentationPainter extends CustomPainter {
         paint: paint,
         drawLastChild: indentation.style == IndentStyle.scopingLine,
       );
+    }
 
     if (isRtl) {
       canvas.restore();
@@ -341,7 +345,7 @@ class _IndentationPainter extends CustomPainter {
     required Paint paint,
     bool drawLastChild = false,
   }) {
-    if (drawLastChild || lastChildCacheManager.isLastChild(node) == false)
+    if (drawLastChild || lastChildCacheManager.isLastChild(node) == false) {
       canvas.drawRect(
           Rect.fromLTRB(
             origin.dx - 0.5,
@@ -350,6 +354,7 @@ class _IndentationPainter extends CustomPainter {
             bottom,
           ),
           paint);
+    }
 
     if (node.parent != null) {
       _drawScopingLines(

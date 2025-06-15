@@ -44,9 +44,9 @@ class FakeStatefulIndexedTreeViewState
 
   void _nextTree() {
     setState(() {
-      if (stateCount < testIndexedTrees.length - 1)
+      if (stateCount < testIndexedTrees.length - 1) {
         stateCount++;
-      else {
+      } else {
         stateCount = 0;
       }
     });
@@ -68,9 +68,9 @@ class FakeStatefulIndexedTreeViewState
             ),
           ),
           TextButton(
-            key: ValueKey("nextButton"),
-            child: Text("Next"),
+            key: const ValueKey("nextButton"),
             onPressed: _nextTree,
+            child: const Text("Next"),
           ),
         ]),
       ),
@@ -78,7 +78,7 @@ class FakeStatefulIndexedTreeViewState
   }
 }
 
-late final testIndexedTrees = <(IndexedTreeNode, List<IndexedTreeNode>)>[
+final testIndexedTrees = <(IndexedTreeNode, List<IndexedTreeNode>)>[
   (defaultIndexedTree, []),
   (nodesAddedIndexedTree, []),
   (

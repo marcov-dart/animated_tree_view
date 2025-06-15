@@ -1,6 +1,7 @@
-import 'package:animated_tree_view/node/base/i_node.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
+
+import '../../node/base/i_node.dart';
 
 /// The base class for implementing a Listenable Node. It allows for the listener
 /// to observe any changes in the Node.
@@ -36,6 +37,7 @@ mixin NodeEvent<T> {
 }
 
 class NodeAddEvent<T> with NodeEvent<T> {
+  @override
   final List<T> items;
 
   const NodeAddEvent(this.items);
@@ -47,6 +49,7 @@ class NodeAddEvent<T> with NodeEvent<T> {
 }
 
 class NodeRemoveEvent<T> with NodeEvent<T> {
+  @override
   final List<T> items;
 
   const NodeRemoveEvent(this.items);
@@ -58,6 +61,7 @@ class NodeRemoveEvent<T> with NodeEvent<T> {
 }
 
 class NodeInsertEvent<T> with NodeEvent<T> {
+  @override
   final List<T> items;
   final int index;
 

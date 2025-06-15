@@ -1,10 +1,11 @@
 import 'dart:collection';
 
-import 'package:animated_tree_view/animated_tree_view.dart';
-import 'package:animated_tree_view/helpers/collection_utils.dart';
-import 'package:animated_tree_view/tree_diff/tree_diff_change.dart';
 import 'package:diffutil_dart/diffutil.dart';
 import 'package:flutter/widgets.dart';
+
+import '../animated_tree_view.dart';
+import '../helpers/collection_utils.dart';
+import 'tree_diff_change.dart';
 
 List<TreeDiffNodeChange> calculateTreeDiff<T extends ITreeNode>(
     T oldTree, T newTree) {
@@ -16,8 +17,9 @@ List<TreeDiffNodeChange> calculateTreeDiff<T extends ITreeNode>(
   while (queue.isNotEmpty) {
     final (oldTree, newTree) = queue.removeFirst();
 
-    if (oldTree.childrenAsList.isEmpty && newTree.childrenAsList.isEmpty)
+    if (oldTree.childrenAsList.isEmpty && newTree.childrenAsList.isEmpty) {
       continue;
+    }
 
     final localUpdates = TreeDiff(
       oldTree: oldTree as ITreeNode,
@@ -59,11 +61,13 @@ class TreeDiff {
   });
 
   factory TreeDiff({required ITreeNode oldTree, required ITreeNode newTree}) {
-    if (oldTree is TreeNode && newTree is TreeNode)
+    if (oldTree is TreeNode && newTree is TreeNode) {
       return forTree(oldTree: oldTree, newTree: newTree);
+    }
 
-    if (oldTree is IndexedTreeNode && newTree is IndexedTreeNode)
+    if (oldTree is IndexedTreeNode && newTree is IndexedTreeNode) {
       return forIndexedTree(oldTree: oldTree, newTree: newTree);
+    }
 
     return TreeDiff._(oldTree: oldTree, newTree: newTree);
   }

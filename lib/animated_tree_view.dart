@@ -1,5 +1,3 @@
-library animated_tree_view;
-
 export 'package:scroll_to_index/scroll_to_index.dart';
 
 export 'helpers/exceptions.dart';

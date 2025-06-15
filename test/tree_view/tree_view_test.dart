@@ -61,7 +61,7 @@ void main() {
   });
 
   testWidgets("TreeView is updated on updating the tree", (tester) async {
-    await tester.pumpWidget(FakeStatefulTreeView());
+    await tester.pumpWidget(const FakeStatefulTreeView());
 
     for (final tree in testTrees) {
       final (treeToTest, removedNodes) = tree;
@@ -72,7 +72,7 @@ void main() {
         expect(find.byKey(ValueKey(removedNode.key)), findsNothing);
       }
 
-      await tester.tap(find.byKey(ValueKey("nextButton")));
+      await tester.tap(find.byKey(const ValueKey("nextButton")));
       await tester.pumpAndSettle();
 
       await tester.tap(rootNode);

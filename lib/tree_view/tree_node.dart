@@ -1,6 +1,7 @@
-import 'package:animated_tree_view/animated_tree_view.dart';
-import 'package:animated_tree_view/listenable_node/base/i_listenable_node.dart';
 import 'package:flutter/foundation.dart';
+
+import '../animated_tree_view.dart';
+import '../listenable_node/base/i_listenable_node.dart';
 
 /// Base class that allows a data of type [T] to be wrapped in a [ListenableNode]
 mixin ITreeNode<T> on IListenableNode implements ValueListenable<INode> {
@@ -36,10 +37,10 @@ class TreeNode<T> extends ListenableNode with ITreeNode<T> {
   /// A [TreeNode] constructor that can be used with the [TreeView].
   /// Any data of type [T] can be wrapped with [TreeNode]
   TreeNode({T? data, super.key, super.parent})
-      : this.listenableData = ValueNotifier(data);
+      : listenableData = ValueNotifier(data);
 
   /// Factory constructor to be used only for root [TreeNode]
-  factory TreeNode.root({T? data}) => TreeNode(key: INode.ROOT_KEY, data: data);
+  factory TreeNode.root({T? data}) => TreeNode(key: INode.rootKey, data: data);
 
   /// [ValueNotifier] for data [T] that can be listened for data changes;
   @override
@@ -59,11 +60,11 @@ class IndexedTreeNode<T> extends IndexedListenableNode with ITreeNode<T> {
   /// A [IndexedTreeNode] constructor that can be used with the [IndexedTreeView].
   /// Any data of type [T] can be wrapped with [IndexedTreeView]
   IndexedTreeNode({T? data, super.key, super.parent})
-      : this.listenableData = ValueNotifier(data);
+      : listenableData = ValueNotifier(data);
 
   /// Factory constructor to be used only for root [IndexedTreeNode]
   factory IndexedTreeNode.root({T? data}) =>
-      IndexedTreeNode(key: INode.ROOT_KEY, data: data);
+      IndexedTreeNode(key: INode.rootKey, data: data);
 
   /// [ValueNotifier] for data [T] that can be listened for data changes;
   @override

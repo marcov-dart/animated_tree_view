@@ -31,6 +31,8 @@ class FakeStatelessTreeView<T> extends StatelessWidget {
 }
 
 class FakeStatefulTreeView extends StatefulWidget {
+  const FakeStatefulTreeView({super.key});
+
   @override
   State<StatefulWidget> createState() => FakeStatefulTreeViewState();
 }
@@ -40,9 +42,9 @@ class FakeStatefulTreeViewState extends State<FakeStatefulTreeView> {
 
   void _nextTree() {
     setState(() {
-      if (stateCount < testTrees.length - 1)
+      if (stateCount < testTrees.length - 1) {
         stateCount++;
-      else {
+      } else {
         stateCount = 0;
       }
     });
@@ -64,9 +66,9 @@ class FakeStatefulTreeViewState extends State<FakeStatefulTreeView> {
             ),
           ),
           TextButton(
-            key: ValueKey("nextButton"),
-            child: Text("Next"),
+            key: const ValueKey("nextButton"),
             onPressed: _nextTree,
+            child: const Text("Next"),
           ),
         ]),
       ),
@@ -74,7 +76,7 @@ class FakeStatefulTreeViewState extends State<FakeStatefulTreeView> {
   }
 }
 
-late final testTrees = <(TreeNode, List<TreeNode>)>[
+final testTrees = <(TreeNode, List<TreeNode>)>[
   (defaultTree, []),
   (nodesAddedTree, []),
   (

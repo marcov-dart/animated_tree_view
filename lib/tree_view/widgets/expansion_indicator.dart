@@ -1,6 +1,7 @@
-import 'package:animated_tree_view/animated_tree_view.dart';
-import 'package:animated_tree_view/constants/constants.dart';
 import 'package:flutter/material.dart';
+
+import '../../animated_tree_view.dart';
+import '../../constants/constants.dart';
 
 typedef ExpansionIndicatorBuilder<Data> = ExpansionIndicator Function(
     BuildContext, ITreeNode<Data>);
@@ -51,7 +52,7 @@ abstract class ExpansionIndicator extends StatefulWidget {
   /// The color for the expansion indicator.
   final Color? color;
 
-  ExpansionIndicator({
+  const ExpansionIndicator({
     super.key,
     required this.tree,
     this.alignment = Alignment.topRight,
@@ -78,10 +79,11 @@ abstract class ExpansionIndicatorState<T extends ExpansionIndicator>
   void _onExpandedChangeListener() {
     if (!mounted) return;
 
-    if (widget.tree.isExpanded)
+    if (widget.tree.isExpanded) {
       controller.animateTo(1, curve: widget.curve);
-    else
+    } else {
       controller.animateBack(0, curve: widget.curve);
+    }
   }
 
   @override
@@ -94,7 +96,7 @@ abstract class ExpansionIndicatorState<T extends ExpansionIndicator>
 
 /// [ExpansionIndicator] implementation for not showing any expansion indicator.
 class NoExpansionIndicator extends ExpansionIndicator {
-  NoExpansionIndicator({required super.tree});
+  const NoExpansionIndicator({super.key, required super.tree});
 
   @override
   State<StatefulWidget> createState() => _NoExpansionIndicatorState();
@@ -102,7 +104,7 @@ class NoExpansionIndicator extends ExpansionIndicator {
 
 class _NoExpansionIndicatorState extends State<NoExpansionIndicator> {
   @override
-  Widget build(BuildContext context) => SizedBox.shrink();
+  Widget build(BuildContext context) => const SizedBox.shrink();
 }
 
 /// Uses a chevron to indicate the expansion state.
@@ -111,7 +113,7 @@ class ChevronIndicator extends ExpansionIndicator {
   final Tween<double> tween;
   final IconData icon;
 
-  ChevronIndicator._({
+  const ChevronIndicator._({
     super.key,
     required super.tree,
     required this.tween,
@@ -202,21 +204,14 @@ class _RotatedIndicatorState extends ExpansionIndicatorState<ChevronIndicator> {
 ///
 /// ** See also: [ChevronIndicator] for an expansion indicator using chevron
 class PlusMinusIndicator extends ExpansionIndicator {
-  PlusMinusIndicator({
-    required ITreeNode tree,
-    Key? key,
-    Alignment alignment = Alignment.topRight,
-    EdgeInsets padding = EdgeInsets.zero,
-    Curve curve = Curves.ease,
-    Color? color,
-  }) : super(
-          key: key,
-          tree: tree,
-          alignment: alignment,
-          padding: padding,
-          curve: curve,
-          color: color,
-        );
+  const PlusMinusIndicator({
+    required super.tree,
+    super.key,
+    super.alignment,
+    super.padding,
+    super.curve = Curves.ease,
+    super.color,
+  });
 
   @override
   State<StatefulWidget> createState() => _PlusMinusIndicatorState();

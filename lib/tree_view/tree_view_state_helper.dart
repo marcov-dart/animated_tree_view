@@ -1,14 +1,15 @@
 import 'dart:async';
 
-import 'package:animated_tree_view/constants/constants.dart';
-import 'package:animated_tree_view/helpers/exceptions.dart';
-import 'package:animated_tree_view/listenable_node/base/i_listenable_node.dart';
-import 'package:animated_tree_view/node/base/i_node.dart';
-import 'package:animated_tree_view/tree_view/tree_node.dart';
-import 'package:animated_tree_view/tree_view/tree_view.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/foundation.dart';
 import 'package:scroll_to_index/scroll_to_index.dart';
+
+import '../constants/constants.dart';
+import '../helpers/exceptions.dart';
+import '../listenable_node/base/i_listenable_node.dart';
+import '../node/base/i_node.dart';
+import 'tree_node.dart';
+import 'tree_view.dart';
 
 abstract class ListState<Tree> {
   void insertItem(int index, {Duration duration = animationDuration});
@@ -18,7 +19,7 @@ abstract class ListState<Tree> {
 }
 
 class TreeViewStateHelper<Data> {
-  static const TAG = "TreeViewStateHelper";
+  static const tag = "TreeViewStateHelper";
 
   final ITreeNode<Data> tree;
   final AnimatedListStateController<Data> animatedListStateController;
@@ -193,7 +194,7 @@ class AnimatedListStateController<Data> {
     required ListState<ITreeNode<Data>> listState,
     required this.showRootNode,
     required ITreeNode<Data> tree,
-  }) : this._listState = listState {
+  }) : _listState = listState {
     _flatList = List.from(showRootNode ? [tree] : tree.root.childrenAsList);
     _itemsMap = <String, ITreeNode<Data>>{
       for (final node in _flatList) node.path: node
@@ -222,8 +223,9 @@ class AnimatedListStateController<Data> {
   }
 
   ITreeNode<Data> removeAt(int index) {
-    if (index < 0 || index > _flatList.length)
+    if (index < 0 || index > _flatList.length) {
       throw RangeError.index(index, _flatList);
+    }
 
     _itemsMap.remove(_flatList[index].path);
     final removedItem = _flatList.removeAt(index);
@@ -271,7 +273,7 @@ class TreeViewExpansionBehaviourController<Data> {
 
   Future<void> collapseNode(ITreeNode<Data> item) async {
     final removeItems = animatedListStateController.list.where((element) =>
-        (element.path).startsWith('${item.path}${INode.PATH_SEPARATOR}'));
+        (element.path).startsWith('${item.path}${INode.pathSeperator}'));
 
     await animatedListStateController.removeAll(removeItems.toList());
     item.expansionNotifier.value = false;
@@ -315,7 +317,7 @@ class TreeViewExpansionBehaviourController<Data> {
         await collapseAllOtherSiblingNodes(item);
         await snapToTop(
           item,
-          delay: animationDuration + Duration(milliseconds: 100),
+          delay: animationDuration + const Duration(milliseconds: 100),
         );
         break;
     }

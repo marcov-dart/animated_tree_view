@@ -1,4 +1,4 @@
-import 'package:animated_tree_view/animated_tree_view.dart';
+import '../animated_tree_view.dart';
 
 sealed class TreeDiffNodeChange {
   const TreeDiffNodeChange();

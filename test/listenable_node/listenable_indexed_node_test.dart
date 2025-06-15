@@ -1,3 +1,5 @@
+// ignore_for_file: curly_braces_in_flow_control_structures
+
 import 'dart:async';
 
 import 'package:animated_tree_view/animated_tree_view.dart';
@@ -766,18 +768,17 @@ void main() {
     test('Correct node is returned using a path in the elementAt method',
         () async {
       final node = mockListenableIndexedNode1;
-      const _s = INode.PATH_SEPARATOR;
-      expect(node.elementAt("0A${_s}0A1A").key, equals("0A1A"));
-      expect(node.elementAt("0C${_s}0C1C${_s}0C1C2A${_s}0C1C2A3A").key,
+      const s = INode.pathSeperator;
+      expect(node.elementAt("0A${s}0A1A").key, equals("0A1A"));
+      expect(node.elementAt("0C${s}0C1C${s}0C1C2A${s}0C1C2A3A").key,
           equals("0C1C2A3A"));
     });
 
     test('Correct node is returned using a path in the [] operator', () async {
       final node = mockListenableIndexedNode1;
-      const _s = INode.PATH_SEPARATOR;
-      expect(node["0A${_s}0A1A"].key, equals("0A1A"));
-      expect(
-          node["0C${_s}0C1C${_s}0C1C2A${_s}0C1C2A3A"].key, equals("0C1C2A3A"));
+      const s = INode.pathSeperator;
+      expect(node["0A${s}0A1A"].key, equals("0A1A"));
+      expect(node["0C${s}0C1C${s}0C1C2A${s}0C1C2A3A"].key, equals("0C1C2A3A"));
     });
 
     test('Correct path is returned from a nested node', () async {
@@ -794,23 +795,23 @@ void main() {
     test('Correct root is returned using findRootMethod', () async {
       final node = mockListenableIndexedNode1;
       final nodeToTest = node["0C"]["0C1C"]["0C1C2A"]["0C1C2A3A"];
-      expect(nodeToTest.root.key, equals(INode.ROOT_KEY));
+      expect(nodeToTest.root.key, equals(INode.rootKey));
     });
 
     test(
         'Exception is thrown if an incorrect path is provided to elementAt method',
         () async {
       final node = mockListenableIndexedNode1;
-      const _s = INode.PATH_SEPARATOR;
-      expect(() => node.elementAt("0A${_s}0C1A"),
+      const s = INode.pathSeperator;
+      expect(() => node.elementAt("0A${s}0C1A"),
           throwsA(isA<NodeNotFoundException>()));
     });
 
     test('Exception is thrown if an incorrect path is provided to [] operator',
         () async {
       final node = mockListenableIndexedNode1;
-      const _s = INode.PATH_SEPARATOR;
-      expect(() => node["0A${_s}0C1A"], throwsA(isA<NodeNotFoundException>()));
+      const s = INode.pathSeperator;
+      expect(() => node["0A${s}0C1A"], throwsA(isA<NodeNotFoundException>()));
     });
   });
 }

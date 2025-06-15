@@ -18,10 +18,10 @@ void main() {
     });
 
     test(
-        'On passing a key that includes ${INode.PATH_SEPARATOR}, assertionError is thrown',
+        'On passing a key that includes ${INode.pathSeperator}, assertionError is thrown',
         () async {
       expect(() {
-        IndexedNode(key: "${INode.PATH_SEPARATOR}_key");
+        IndexedNode(key: "${INode.pathSeperator}_key");
       }, throwsAssertionError);
     });
   });
@@ -47,21 +47,21 @@ void main() {
     });
 
     test('On adding large number of children, the keys are not duplicated',
-            () async {
-          const count = 100000;
-          final node = IndexedNode();
-          final nodesToAdd = [for (int i = 0; i < count; i++) IndexedNode()];
-          final Map<String, int> freqMap = {};
+        () async {
+      const count = 100000;
+      final node = IndexedNode();
+      final nodesToAdd = [for (int i = 0; i < count; i++) IndexedNode()];
+      final Map<String, int> freqMap = {};
 
-          for (final node in nodesToAdd) {
-            int freq = freqMap[node.key] ?? 0;
-            freqMap[node.key] = freq++;
-          }
+      for (final node in nodesToAdd) {
+        int freq = freqMap[node.key] ?? 0;
+        freqMap[node.key] = freq++;
+      }
 
-          node.addAll(nodesToAdd);
-          expect(freqMap.length, count);
-          expect(node.children.length, equals(nodesToAdd.length));
-        });
+      node.addAll(nodesToAdd);
+      expect(freqMap.length, count);
+      expect(node.children.length, equals(nodesToAdd.length));
+    });
   });
 
   group('test inserting children to a node', () {
@@ -289,9 +289,9 @@ void main() {
         'Correct node in hierarchy is returned using a path in the elementAt method',
         () async {
       final indexedNode = mockIndexedNode1;
-      const _s = INode.PATH_SEPARATOR;
-      expect(indexedNode.elementAt("0A${_s}0A1A").key, equals("0A1A"));
-      expect(indexedNode.elementAt("0C${_s}0C1C${_s}0C1C2A${_s}0C1C2A3A").key,
+      const s = INode.pathSeperator;
+      expect(indexedNode.elementAt("0A${s}0A1A").key, equals("0A1A"));
+      expect(indexedNode.elementAt("0C${s}0C1C${s}0C1C2A${s}0C1C2A3A").key,
           equals("0C1C2A3A"));
     });
 
@@ -299,9 +299,9 @@ void main() {
         'Correct node in hierarchy is returned using a path in the [] operator',
         () async {
       final indexedNode = mockIndexedNode1;
-      const _s = INode.PATH_SEPARATOR;
-      expect(indexedNode["0A${_s}0A1A"].key, equals("0A1A"));
-      expect(indexedNode["0C${_s}0C1C${_s}0C1C2A${_s}0C1C2A3A"].key,
+      const s = INode.pathSeperator;
+      expect(indexedNode["0A${s}0A1A"].key, equals("0A1A"));
+      expect(indexedNode["0C${s}0C1C${s}0C1C2A${s}0C1C2A3A"].key,
           equals("0C1C2A3A"));
     });
 
@@ -341,23 +341,23 @@ void main() {
     test('Correct root is returned using findRootMethod', () async {
       final node = mockIndexedNode1;
       final nodeToTest = node["0C"]["0C1C"]["0C1C2A"]["0C1C2A3A"];
-      expect(nodeToTest.root.key, equals(INode.ROOT_KEY));
+      expect(nodeToTest.root.key, equals(INode.rootKey));
     });
 
     test(
         'Exception is thrown if an incorrect path is provided to elementAt method',
         () async {
       final indexedNode = mockIndexedNode1;
-      const _s = INode.PATH_SEPARATOR;
-      expect(() => indexedNode.elementAt("0A${_s}0C1A"),
+      const s = INode.pathSeperator;
+      expect(() => indexedNode.elementAt("0A${s}0C1A"),
           throwsA(isA<NodeNotFoundException>()));
     });
 
     test('Exception is thrown if an incorrect path is provided to [] operator',
         () async {
       final indexedNode = mockIndexedNode1;
-      const _s = INode.PATH_SEPARATOR;
-      expect(() => indexedNode["0A${_s}0C1A"],
+      const s = INode.pathSeperator;
+      expect(() => indexedNode["0A${s}0C1A"],
           throwsA(isA<NodeNotFoundException>()));
     });
 

@@ -1,6 +1,7 @@
-import 'package:animated_tree_view/animated_tree_view.dart';
-import 'package:animated_tree_view/tree_view/tree_view_state_helper.dart';
 import 'package:flutter/material.dart';
+
+import '../../animated_tree_view.dart';
+import '../tree_view_state_helper.dart';
 
 class ExpandableNodeItem<Data, Tree extends ITreeNode<Data>>
     extends StatelessWidget {
@@ -98,11 +99,10 @@ class ExpandableNodeItem<Data, Tree extends ITreeNode<Data>>
 
   @override
   Widget build(BuildContext context) {
-    final itemContainer = ExpandableNodeContainer(
+    final itemContainer = ExpandableNodeContainer<Data, Tree>(
       key: ValueKey("container#$key"),
       animation: animation,
       node: node,
-      child: builder(context, node),
       indentation: indentation,
       minLevelToIndent: showRootNode ? 0 : 1,
       lastChildCacheManager: lastChildCacheManager,
@@ -111,10 +111,11 @@ class ExpandableNodeItem<Data, Tree extends ITreeNode<Data>>
           : expansionIndicatorBuilder?.call(context, node),
       onTap: remove
           ? null
-          : (dynamic item) {
+          : (item) {
               onToggleExpansion(item);
               if (onItemTap != null) onItemTap!(item);
             },
+      child: builder(context, node),
     );
 
     if (index == null || remove) return itemContainer;
@@ -128,10 +129,11 @@ class ExpandableNodeItem<Data, Tree extends ITreeNode<Data>>
   }
 }
 
-class ExpandableNodeContainer<T> extends StatelessWidget {
+class ExpandableNodeContainer<Data, Tree extends ITreeNode<Data>>
+    extends StatelessWidget {
   final Animation<double> animation;
-  final ValueSetter<ITreeNode<T>>? onTap;
-  final ITreeNode<T> node;
+  final ValueSetter<Tree>? onTap;
+  final Tree node;
   final ExpansionIndicator? expansionIndicator;
   final Indentation indentation;
   final Widget child;

@@ -1,4 +1,4 @@
-import 'package:animated_tree_view/node/indexed_node.dart';
+import '../indexed_node.dart';
 
 import 'i_node.dart';
 
@@ -21,7 +21,7 @@ abstract class INodeActions {
 
   /// Remove all the child nodes from [this] node that match the criterion
   /// in the given [test]
-  void removeWhere(bool test(INode element));
+  void removeWhere(bool Function(INode element) test);
 
   /// Clear all the child nodes from [this] node. [this] node will not have
   /// children after this operation.
@@ -63,7 +63,7 @@ abstract class IIndexedNodeActions extends INodeActions {
   /// An optional [orElse] function can be provided to handle the [test] is not
   /// able to find any node that matches the provided criterion.
   IndexedNode firstWhere(bool Function(IndexedNode element) test,
-      {IndexedNode orElse()?});
+      {IndexedNode Function()? orElse});
 
   /// Get the index of the first child node that matches the criterion in the
   /// [test].
@@ -75,5 +75,5 @@ abstract class IIndexedNodeActions extends INodeActions {
   /// An optional [orElse] function can be provided to handle the [test] is not
   /// able to find any node that matches the provided criterion.
   IndexedNode lastWhere(bool Function(IndexedNode element) test,
-      {IndexedNode orElse()?});
+      {IndexedNode Function()? orElse});
 }

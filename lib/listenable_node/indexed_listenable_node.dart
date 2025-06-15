@@ -1,11 +1,11 @@
 import 'dart:async';
 
-import 'package:animated_tree_view/helpers/event_stream_controller.dart';
-import 'package:animated_tree_view/helpers/exceptions.dart';
-import 'package:animated_tree_view/node/base/i_node.dart';
-import 'package:animated_tree_view/node/indexed_node.dart';
 import 'package:flutter/foundation.dart';
 
+import '../helpers/event_stream_controller.dart';
+import '../helpers/exceptions.dart';
+import '../node/base/i_node.dart';
+import '../node/indexed_node.dart';
 import 'base/i_listenable_node.dart';
 
 class IndexedListenableNode extends IndexedNode
@@ -22,52 +22,60 @@ class IndexedListenableNode extends IndexedNode
   /// Make sure that the provided [key] is unique to among the siblings of the node.
   /// If a [key] is not provided, then a [UniqueKey] will automatically be
   /// assigned to the [Node].
-  IndexedListenableNode({String? key, IndexedNode? parent})
-      : super(key: key, parent: parent);
+  IndexedListenableNode({super.key, IndexedListenableNode? super.parent});
 
   /// Alternate factory constructor for [IndexedListenableNode] that should be used for
   /// the [root] nodes.
   factory IndexedListenableNode.root() =>
-      IndexedListenableNode(key: INode.ROOT_KEY);
+      IndexedListenableNode(key: INode.rootKey);
 
   /// This is the parent [ListenableNode]. Only the root node has a null [parent]
-  IndexedListenableNode? parent;
+  @override
+  IndexedListenableNode? get parent => super.parent as IndexedListenableNode?;
 
   /// Getter to get the [value] of the [ValueListenable]. It returns the [root]
+  @override
   IndexedListenableNode get value => root;
 
   /// This returns the [children] as an iterable list.
+  @override
   List<IndexedListenableNode> get childrenAsList =>
       List<IndexedListenableNode>.from(super.childrenAsList);
 
   /// Getter to get the [root] node.
   /// If the current node is not a [root], then the getter will traverse up the
   /// path to get the [root].
+  @override
   IndexedListenableNode get root => super.root as IndexedListenableNode;
 
   /// Get the [first] child in the list
+  @override
   IndexedListenableNode get first => super.first as IndexedListenableNode;
 
   /// Set the [last] child in the list to [value]
+  @override
   IndexedListenableNode get last => super.last as IndexedListenableNode;
 
   /// Set the [first] child in the list to [value]
+  @override
   set first(IndexedNode value) {
-    this.first = value;
+    first = value;
     _notifyListeners();
   }
 
   /// Set the [last] child in the list to [value]
+  @override
   set last(IndexedNode value) {
-    this.last = value;
+    last = value;
     _notifyListeners();
   }
 
   /// Get the first child node that matches the criterion in the [test].
   /// An optional [orElse] function can be provided to handle the [test] is not
   /// able to find any node that matches the provided criterion.
+  @override
   IndexedListenableNode firstWhere(bool Function(IndexedNode element) test,
-      {IndexedNode orElse()?}) {
+      {IndexedNode Function()? orElse}) {
     return super.firstWhere(test, orElse: orElse) as IndexedListenableNode;
   }
 
@@ -75,6 +83,7 @@ class IndexedListenableNode extends IndexedNode
   /// [test].
   /// An optional [start] index can be provided to ignore any nodes before the
   /// index [start]
+  @override
   int indexWhere(bool Function(IndexedNode element) test, [int start = 0]) {
     return super.indexWhere(test, start);
   }
@@ -82,8 +91,9 @@ class IndexedListenableNode extends IndexedNode
   /// Get the last child node that matches the criterion in the [test].
   /// An optional [orElse] function can be provided to handle the [test] is not
   /// able to find any node that matches the provided criterion.
+  @override
   IndexedListenableNode lastWhere(bool Function(IndexedNode element) test,
-      {IndexedNode orElse()?}) {
+      {IndexedNode Function()? orElse}) {
     return super.lastWhere(test, orElse: orElse) as IndexedListenableNode;
   }
 
@@ -101,6 +111,7 @@ class IndexedListenableNode extends IndexedNode
   ///
   /// The stream should only be listened to on the [root] node.
   /// [ActionNotAllowedException] if a non-root tries to listen the [addedNodes]
+  @override
   Stream<NodeAddEvent<INode>> get addedNodes {
     if (!isRoot) throw ActionNotAllowedException.listener(this);
     return _addedNodes.stream;
@@ -111,6 +122,7 @@ class IndexedListenableNode extends IndexedNode
   ///
   /// The stream should only be listened to on the [root] node.
   /// [ActionNotAllowedException] if a non-root tries to listen the [removedNodes]
+  @override
   Stream<NodeRemoveEvent<INode>> get removedNodes {
     if (!isRoot) throw ActionNotAllowedException.listener(this);
     return _removedNodes.stream;
@@ -121,6 +133,7 @@ class IndexedListenableNode extends IndexedNode
   ///
   /// The stream should only be listened to on the [root] node.
   /// [ActionNotAllowedException] if a non-root tries to listen the [insertedNodes]
+  @override
   Stream<NodeInsertEvent<INode>> get insertedNodes {
     if (!isRoot) throw ActionNotAllowedException.listener(this);
     return _insertedNodes.stream;
@@ -131,6 +144,7 @@ class IndexedListenableNode extends IndexedNode
   ///
   /// The [ValueListenable] and [addedNodes] listeners will also be notified
   /// on this operation
+  @override
   void add(IndexedNode value) {
     super.add(value);
     _notifyListeners();
@@ -142,6 +156,7 @@ class IndexedListenableNode extends IndexedNode
   ///
   /// The [ValueListenable] and [addedNodes] listeners will also be notified
   /// on this operation
+  @override
   void addAll(Iterable<IndexedNode> iterable) {
     super.addAll(iterable);
     _notifyListeners();
@@ -152,6 +167,7 @@ class IndexedListenableNode extends IndexedNode
   ///
   /// The [ValueListenable] and [insertedNodes] listeners will also be notified
   /// on this operation
+  @override
   void insert(int index, IndexedNode element) {
     super.insert(index, element);
     _notifyListeners();
@@ -162,6 +178,7 @@ class IndexedListenableNode extends IndexedNode
   ///
   /// The [ValueListenable] and [insertedNodes] listeners will also be notified
   /// on this operation
+  @override
   int insertAfter(IndexedNode after, IndexedNode element) {
     final index = super.insertAfter(after, element);
     return index;
@@ -171,6 +188,7 @@ class IndexedListenableNode extends IndexedNode
   ///
   /// The [ValueListenable] and [insertedNodes] listeners will also be notified
   /// on this operation
+  @override
   int insertBefore(IndexedNode before, IndexedNode element) {
     final index = super.insertBefore(before, element);
     return index;
@@ -180,6 +198,7 @@ class IndexedListenableNode extends IndexedNode
   ///
   /// The [ValueListenable] and [insertedNodes] listeners will also be notified
   /// on this operation
+  @override
   void insertAll(int index, Iterable<IndexedNode> iterable) {
     super.insertAll(index, iterable);
     _notifyListeners();
@@ -190,6 +209,7 @@ class IndexedListenableNode extends IndexedNode
   ///
   /// The [ValueListenable] and [removedNodes] listeners will also be notified
   /// on this operation
+  @override
   void delete() {
     final nodeToRemove = this;
     super.delete();
@@ -201,6 +221,7 @@ class IndexedListenableNode extends IndexedNode
   ///
   /// The [ValueListenable] and [removedNodes] listeners will also be notified
   /// on this operation
+  @override
   void remove(IndexedNode value) {
     super.remove(value);
     _notifyListeners();
@@ -211,6 +232,7 @@ class IndexedListenableNode extends IndexedNode
   ///
   /// The [ValueListenable] and [removedNodes] listeners will also be notified
   /// on this operation
+  @override
   IndexedListenableNode removeAt(int index) {
     final removedNode = super.removeAt(index);
     _notifyListeners();
@@ -222,6 +244,7 @@ class IndexedListenableNode extends IndexedNode
   ///
   /// The [ValueListenable] and [removedNodes] listeners will also be notified
   /// on this operation
+  @override
   void removeAll(Iterable<IndexedNode> iterable) {
     for (final value in iterable) {
       final index = children.indexWhere((node) => node.key == value.key);
@@ -238,7 +261,8 @@ class IndexedListenableNode extends IndexedNode
   ///
   /// The [ValueListenable] and [removedNodes] listeners will also be notified
   /// on this operation
-  void removeWhere(bool test(IndexedNode element)) {
+  @override
+  void removeWhere(bool Function(IndexedNode element) test) {
     final allChildren = childrenAsList.toSet();
     super.removeWhere(test);
     _notifyListeners();
@@ -255,6 +279,7 @@ class IndexedListenableNode extends IndexedNode
   ///
   /// The [ValueListenable] and [removedNodes] listeners will also be notified
   /// on this operation
+  @override
   void clear() {
     final clearedNodes = childrenAsList;
     super.clear();
@@ -293,15 +318,19 @@ class IndexedListenableNode extends IndexedNode
   /// In order to access the Node with key "0C1C", the path would be
   ///   0C.0C1C
   ///
-  /// Note: The root node [ROOT_KEY] does not need to be in the path
+  /// Note: The root node [rootKey] does not need to be in the path
+  @override
   IndexedListenableNode elementAt(String path) =>
       super.elementAt(path) as IndexedListenableNode;
 
+  @override
   IndexedListenableNode at(int index) =>
       super.at(index) as IndexedListenableNode;
 
+  @override
   IndexedListenableNode operator [](String path) => elementAt(path);
 
+  @override
   void dispose() {
     _addedNodes.close();
     _removedNodes.close();

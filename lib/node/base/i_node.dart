@@ -1,13 +1,13 @@
 /// Base class for Node that defines the required interfaces
 abstract class INode {
-  static const PATH_SEPARATOR = ".";
-  static const ROOT_KEY = "/";
+  static const pathSeperator = ".";
+  static const rootKey = "/";
 
   /// This is the uniqueKey that every node needs to implement
   String get key;
 
   /// This is the parent [INode]. Only the root node has a null [parent]
-  covariant INode? parent;
+  INode? get parent;
 
   /// These are the children of the node. It is a collection that can be
   /// any appropriate data-structure like [List] or [Map]
@@ -54,7 +54,7 @@ abstract class INode {
   /// In order to access the Node with key "0C1C", the path would be
   ///   0C.0C1C
   ///
-  /// Note: The root node [ROOT_KEY] does not need to be in the path
+  /// Note: The root node [rootKey] does not need to be in the path
   INode elementAt(String path);
 
   /// Overloaded operator for [elementAt]
@@ -75,7 +75,7 @@ abstract class INode {
   /// Getter to get the [root] node.
   /// If the current node is not a [root], then the getter will traverse up the
   /// path to get the [root].
-  INode get root => isRoot ? this : this.parent!.root;
+  INode get root => isRoot ? this : parent!.root;
 
   /// Getter to get the level i.e. how many iterations it will take to get to the
   /// [root].
@@ -88,12 +88,12 @@ abstract class INode {
   /// Path of the node in the tree. It provides information about the node
   /// hierarchy by listing all the ancestors of the node.
   ///
-  /// A typical path starts with a [ROOT_KEY] (/) and separates each ancestor key
-  /// using [PATH_SEPARATOR] (.). For example for a node with [key] <#key123>
+  /// A typical path starts with a [rootKey] (/) and separates each ancestor key
+  /// using [pathSeperator] (.). For example for a node with [key] <#key123>
   /// and ancestors <#parent_1>, <#grand_parent_2>, the [path] will be
   ///     /.#grand_parent_2.#parent_1
   String get path =>
-      parent == null ? key : "${parent!.path}${INode.PATH_SEPARATOR}$key";
+      parent == null ? key : "${parent!.path}${INode.pathSeperator}$key";
 
   @override
   bool operator ==(Object other) =>
@@ -105,7 +105,7 @@ abstract class INode {
 
 extension StringUtils on String {
   List<String> get splitToNodes {
-    final nodes = this.split(INode.PATH_SEPARATOR);
+    final nodes = split(INode.pathSeperator);
     if (nodes.isNotEmpty && nodes.first.isEmpty) {
       nodes.removeAt(0);
     }

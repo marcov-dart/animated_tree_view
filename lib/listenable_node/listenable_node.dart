@@ -1,10 +1,10 @@
 import 'dart:async';
 
-import 'package:animated_tree_view/animated_tree_view.dart';
-import 'package:animated_tree_view/helpers/event_stream_controller.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 
+import '../animated_tree_view.dart';
+import '../helpers/event_stream_controller.dart';
 import 'base/i_listenable_node.dart';
 
 class ListenableNode extends Node
@@ -21,24 +21,28 @@ class ListenableNode extends Node
   /// Make sure that the provided [key] is unique to among the siblings of the node.
   /// If a [key] is not provided, then a [UniqueKey] will automatically be
   /// assigned to the [Node].
-  ListenableNode({String? key, Node? parent}) : super(key: key, parent: parent);
+  ListenableNode({super.key, ListenableNode? super.parent});
 
   /// Alternate factory constructor for [ListenableNode] that should be used for
   /// the [root] nodes.
-  factory ListenableNode.root() => ListenableNode(key: INode.ROOT_KEY);
+  factory ListenableNode.root() => ListenableNode(key: INode.rootKey);
 
   /// This is the parent [ListenableNode]. Only the root node has a null [parent]
-  ListenableNode? parent;
+  @override
+  ListenableNode? get parent => super.parent as ListenableNode?;
 
   /// Getter to get the [value] of the [ValueListenable]. It returns the [root]
+  @override
   ListenableNode get value => root;
 
   /// Getter to get the [root] node.
   /// If the current node is not a [root], then the getter will traverse up the
   /// path to get the [root].
+  @override
   ListenableNode get root => super.root as ListenableNode;
 
   /// This returns the [children] as an iterable list.
+  @override
   List<ListenableNode> get childrenAsList =>
       List<ListenableNode>.from(super.childrenAsList);
 
@@ -53,6 +57,7 @@ class ListenableNode extends Node
   ///
   /// The stream should only be listened to on the [root] node.
   /// [ActionNotAllowedException] if a non-root tries to listen the [addedNodes]
+  @override
   Stream<NodeAddEvent<INode>> get addedNodes {
     if (!isRoot) throw ActionNotAllowedException.listener(this);
     return _addedNodes.stream;
@@ -63,6 +68,7 @@ class ListenableNode extends Node
   ///
   /// The stream should only be listened to on the [root] node.
   /// [ActionNotAllowedException] if a non-root tries to listen the [removedNodes]
+  @override
   Stream<NodeRemoveEvent<INode>> get removedNodes {
     if (!isRoot) throw ActionNotAllowedException.listener(this);
     return _removedNodes.stream;
@@ -70,6 +76,7 @@ class ListenableNode extends Node
 
   /// The insertNodes stream is not allowed for the ListenableNode.
   /// The index based operations like 'insert' are not implemented in ListenableNode
+  @override
   Stream<
       NodeInsertEvent<
           INode>> get insertedNodes => throw ActionNotAllowedException(
@@ -82,6 +89,7 @@ class ListenableNode extends Node
   ///
   /// The [ValueListenable] and [addedNodes] listeners will also be notified
   /// on this operation
+  @override
   void add(Node value) {
     super.add(value);
     _notifyListeners();
@@ -92,6 +100,7 @@ class ListenableNode extends Node
   ///
   /// The [ValueListenable] and [addedNodes] listeners will also be notified
   /// on this operation
+  @override
   void addAll(Iterable<Node> iterable) {
     super.addAll(iterable);
     _notifyListeners();
@@ -102,6 +111,7 @@ class ListenableNode extends Node
   ///
   /// The [ValueListenable] and [removedNodes] listeners will also be notified
   /// on this operation
+  @override
   void remove(Node value) {
     super.remove(value);
     _notifyListeners();
@@ -112,6 +122,7 @@ class ListenableNode extends Node
   ///
   /// The [ValueListenable] and [removedNodes] listeners will also be notified
   /// on this operation
+  @override
   void delete() {
     final nodeToRemove = this;
     super.delete();
@@ -123,6 +134,7 @@ class ListenableNode extends Node
   ///
   /// The [ValueListenable] and [removedNodes] listeners will also be notified
   /// on this operation
+  @override
   void removeAll(Iterable<Node> iterable) {
     super.removeAll(iterable);
     _notifyListeners();
@@ -134,7 +146,8 @@ class ListenableNode extends Node
   ///
   /// The [ValueListenable] and [removedNodes] listeners will also be notified
   /// on this operation
-  void removeWhere(bool test(Node element)) {
+  @override
+  void removeWhere(bool Function(Node element) test) {
     final allChildren = childrenAsList.toSet();
     super.removeWhere(test);
     _notifyListeners();
@@ -151,6 +164,7 @@ class ListenableNode extends Node
   ///
   /// The [ValueListenable] and [removedNodes] listeners will also be notified
   /// on this operation
+  @override
   void clear() {
     final clearedNodes = childrenAsList;
     super.clear();
@@ -189,14 +203,17 @@ class ListenableNode extends Node
   /// In order to access the Node with key "0C1C", the path would be
   ///   0C.0C1C
   ///
-  /// Note: The root node [ROOT_KEY] does not need to be in the path
+  /// Note: The root node [rootKey] does not need to be in the path
+  @override
   ListenableNode elementAt(String path) =>
       super.elementAt(path) as ListenableNode;
 
   /// Overloaded operator for [elementAt]
+  @override
   ListenableNode operator [](String path) => elementAt(path);
 
   /// Disposer to clear the listeners and [StreamSubscription]s
+  @override
   void dispose() {
     _addedNodes.close();
     _removedNodes.close();

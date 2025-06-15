@@ -1,6 +1,6 @@
 import 'package:animated_tree_view/animated_tree_view.dart';
 
-late final testTrees = [
+final testTrees = [
   defaultIndexedTree,
   nodesAddedIndexedTree,
   nodesRemovedIndexedTree,

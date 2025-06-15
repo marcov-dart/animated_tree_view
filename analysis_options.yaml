@@ -1,0 +1,20 @@
+include: package:flutter_lints/flutter.yaml
+
+linter:
+  rules:
+    - constant_identifier_names
+    - avoid_print
+    - close_sinks
+    - directives_ordering
+    - unnecessary_brace_in_string_interps
+    - camel_case_types
+    - await_only_futures
+    - prefer_const_constructors
+    - prefer_relative_imports
+
+analyzer:
+  language:
+    strict-casts: true
+    strict-inference: false
+    strict-raw-types: false
+  

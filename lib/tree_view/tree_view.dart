@@ -1,11 +1,11 @@
 import 'dart:async';
 
-import 'package:animated_tree_view/animated_tree_view.dart';
-import 'package:animated_tree_view/constants/constants.dart';
-import 'package:animated_tree_view/tree_diff/tree_diff_util.dart';
 import 'package:flutter/material.dart';
 
+import '../animated_tree_view.dart';
+import '../constants/constants.dart';
 import '../tree_diff/tree_diff_change.dart';
+import '../tree_diff/tree_diff_util.dart';
 import 'tree_view_state_helper.dart';
 import 'widgets/expandable_node.dart';
 
@@ -13,7 +13,7 @@ ExpansionIndicator _defExpansionIndicatorBuilder<Data>(
         BuildContext context, ITreeNode<Data> tree) =>
     ChevronIndicator.rightDown(
       tree: tree,
-      padding: EdgeInsets.all(8),
+      padding: const EdgeInsets.all(8),
     );
 
 ExpansionIndicator noExpansionIndicatorBuilder<Data>(
@@ -98,12 +98,13 @@ final class TreeViewController<Data, Tree extends ITreeNode<Data>> {
     expandNode(node);
     for (final child in node.childrenAsList) {
       expandNode(child as Tree);
-      if (child.childrenAsList.isNotEmpty)
+      if (child.childrenAsList.isNotEmpty) {
         expandAllChildren(child, recursive: recursive);
+      }
     }
   }
 
-  /// Returns the [INode.ROOT_KEY] root of the [tree]
+  /// Returns the [INode.rootKey] root of the [tree]
   Tree get tree => _animatedListController.tree as Tree;
 
   /// Returns the [ITreeNode] at the provided [path]
@@ -205,8 +206,7 @@ abstract base class _TreeView<Data, Tree extends ITreeNode<Data>>
     this.onTreeReady,
     this.focusToNewNode = true,
     this.animation,
-  }) : this.indentation =
-            indentation ?? const Indentation(style: IndentStyle.none);
+  }) : indentation = indentation ?? const Indentation(style: IndentStyle.none);
 }
 
 mixin _TreeViewState<Data, Tree extends ITreeNode<Data>,
@@ -306,9 +306,10 @@ mixin _TreeViewState<Data, Tree extends ITreeNode<Data>,
   void didUpdateWidget(S oldWidget) {
     super.didUpdateWidget(oldWidget);
 
-    if (widget.expansionBehavior != oldWidget.expansionBehavior)
+    if (widget.expansionBehavior != oldWidget.expansionBehavior) {
       _stateHelper.expansionBehaviourController.expansionBehavior =
           widget.expansionBehavior;
+    }
 
     didUpdateTree();
   }
@@ -645,21 +646,19 @@ final class TreeView<Data, Tree extends ITreeNode<Data>>
           );
 
   @override
-  State<StatefulWidget> createState() => TreeViewState<Data, Tree>(animation);
+  State<StatefulWidget> createState() => TreeViewState<Data, Tree>();
 }
 
 class TreeViewState<Data, Tree extends ITreeNode<Data>>
     extends State<TreeView<Data, Tree>>
     with _TreeViewState<Data, Tree, TreeView<Data, Tree>> {
-  TreeViewState(Animation<double>? animation) : _animation = animation;
+  TreeViewState();
 
   static const _errorMsg =
       "Animated list state not found from GlobalKey<AnimatedListState>";
 
   late final GlobalKey<AnimatedListState> _listKey =
       GlobalKey<AnimatedListState>();
-
-  final Animation<double>? _animation;
 
   @override
   void insertItem(int index, {Duration duration = animationDuration}) {
@@ -674,7 +673,7 @@ class TreeViewState<Data, Tree extends ITreeNode<Data>>
     _listKey.currentState!.removeItem(
       index,
       (context, animation) =>
-          _removedItemBuilder(context, item, _animation ?? animation),
+          _removedItemBuilder(context, item, widget.animation ?? animation),
       duration: duration,
     );
   }
@@ -690,7 +689,7 @@ class TreeViewState<Data, Tree extends ITreeNode<Data>>
       padding: widget.padding,
       shrinkWrap: widget.shrinkWrap,
       itemBuilder: (context, index, animation) =>
-          _insertedItemBuilder(context, index, _animation ?? animation),
+          _insertedItemBuilder(context, index, widget.animation ?? animation),
     );
   }
 }
@@ -741,8 +740,7 @@ final class SliverTreeView<Data, Tree extends ITreeNode<Data>>
             "For more info see example/lib/samples/sliver_treeview/sliver_treeview_sample.dart\n\n");
 
   @override
-  State<StatefulWidget> createState() =>
-      SliverTreeViewState<Data, Tree>(animation);
+  State<StatefulWidget> createState() => SliverTreeViewState<Data, Tree>();
 
   /// The default implementation of [SliverTreeView] that uses a [TreeNode] internally,
   /// which is based on the [Map] data structure for maintaining the children states.
@@ -979,14 +977,12 @@ final class SliverTreeView<Data, Tree extends ITreeNode<Data>>
 class SliverTreeViewState<Data, Tree extends ITreeNode<Data>>
     extends State<SliverTreeView<Data, Tree>>
     with _TreeViewState<Data, Tree, SliverTreeView<Data, Tree>> {
-  SliverTreeViewState(Animation<double>? animation) : _animation = animation;
+  SliverTreeViewState();
   static const _errorMsg =
       "Sliver Animated list state not found from GlobalKey<SliverAnimatedListState>";
 
   late final GlobalKey<SliverAnimatedListState> _listKey =
       GlobalKey<SliverAnimatedListState>();
-
-  final Animation<double>? _animation;
 
   @override
   void insertItem(int index, {Duration duration = animationDuration}) {
@@ -1001,7 +997,7 @@ class SliverTreeViewState<Data, Tree extends ITreeNode<Data>>
     _listKey.currentState!.removeItem(
       index,
       (context, animation) =>
-          _removedItemBuilder(context, item, _animation ?? animation),
+          _removedItemBuilder(context, item, widget.animation ?? animation),
       duration: duration,
     );
   }
@@ -1012,7 +1008,7 @@ class SliverTreeViewState<Data, Tree extends ITreeNode<Data>>
       key: _listKey,
       initialItemCount: _stateHelper.animatedListStateController.list.length,
       itemBuilder: (context, index, animation) =>
-          _insertedItemBuilder(context, index, _animation ?? animation),
+          _insertedItemBuilder(context, index, widget.animation ?? animation),
     );
   }
 }

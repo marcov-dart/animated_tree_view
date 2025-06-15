@@ -1,4 +1,4 @@
-import 'package:animated_tree_view/node/base/i_node.dart';
+import '../node/base/i_node.dart';
 
 class DuplicateKeyException implements Exception {
   final String message;
